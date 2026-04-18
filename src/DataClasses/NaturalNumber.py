@@ -16,11 +16,14 @@ class NaturalNumber:
         return (
             f"NaturalNumber: {{\n\t"
             f"Старшая позиция: {self.n}\n\t"
-            f"цифры: {[digit for digit in self.digits[::-1]]}\n"
+            f"Цифры: {[digit for digit in self.digits[::-1]]}\n"
             f"}}"
         )
+    def to_str(self):
+        return ''.join([str(digit) for digit in self.digits[::-1]])
 
 
 if __name__ == "__main__":
     nn = NaturalNumber(input())
     print(nn)
+    print(nn.to_str())

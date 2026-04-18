@@ -7,7 +7,7 @@ class IntNumber:
         хранится в обратном порядке.
         Например число '123' преобразуется в [3, 2, 1].
     """
-    def __init__(self, sign, string=""):
+    def __init__(self, sign=0, string=""):
         self.n = len(string) - 1
         self.sign = sign
         self.digits = [0]
@@ -18,12 +18,16 @@ class IntNumber:
         return (
             f"IntNumber: {{\n\t"
             f"Знак: {"'-'" if self.sign else '+'}\n\t"
-            f"старшая позиция: {self.n}, \n\t"
-            f"цифры: {[digit for digit in self.digits[::-1]]}\n"
+            f"Старшая позиция: {self.n}, \n\t"
+            f"Цифры: {[digit for digit in self.digits[::-1]]}\n"
             f"}}"
         )
+
+    def to_str(self):
+        return ''.join([str(digit) for digit in self.digits[::-1]])
 
 
 if __name__ == "__main__":
     intnumber = IntNumber(int(input()), input())
     print(intnumber)
+    print(intnumber.to_str())
