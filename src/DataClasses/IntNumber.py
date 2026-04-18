@@ -1,0 +1,2 @@
+class IntNumber:
+    pass
