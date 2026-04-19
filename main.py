@@ -1,4 +1,5 @@
 import sys
+import init_paths
 from PyQt6.QtWidgets import QApplication
 from GUI.MainWindow import MainWindow
 from GUI.HelpWindow import HelpWindow
