@@ -7,7 +7,7 @@ class NaturalNumber:
         Например число '123' преобразуется в [3, 2, 1].
     """
     def __init__(self, string=""):
-        self.n = len(string) - 1
+        self.n = len(string) - 1 if len(string) else 0
         self.digits = [0]
         if string:
             self.digits = [int(digit) for digit in string[::-1]]

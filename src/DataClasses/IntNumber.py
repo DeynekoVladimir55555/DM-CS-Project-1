@@ -8,7 +8,7 @@ class IntNumber:
         Например число '123' преобразуется в [3, 2, 1].
     """
     def __init__(self, sign=0, string=""):
-        self.n = len(string) - 1
+        self.n = len(string) - 1 if len(string) else 0
         self.sign = sign
         self.digits = [0]
         if string:

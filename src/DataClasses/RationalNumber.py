@@ -10,7 +10,7 @@ class RationalNumber:
         nomer (str): строковое представление числителя.
         denomer (str): строковое представление знаменятеля.
     """
-    def __init__(self, sign, nomer, denomer):
+    def __init__(self, sign=0, nomer="", denomer=""):
         self.nomer = IntNumber(sign, nomer)
         self.denomer = NaturalNumber(denomer)
 
