@@ -6,7 +6,7 @@ class Polinom:
     Реализация многочлена
     Аргументы:
         sign (int): 1 - минус, 0 - плюс.
-        deg (int): степень многочлена
+        deg (int): степень члена
         nomer (str): числитель коэффициента
         denomer (str): знаменатель коэффициента
     """
@@ -18,6 +18,20 @@ class Polinom:
         for i in range(deg - 1, -1, -1):
             self.coefs[i] = RationalNumber()
 
+    def change_coef(self, sign=0, deg=0, nomer="", denomer=""):
+        """
+        Добавление нового члена в многочлен или изменение старого
+        Аргументы как при инициализации:
+            sign (int): 1 - минус, 0 - плюс.
+            deg (int): степень члена
+            nomer (str): числитель коэффициента
+            denomer (str): знаменатель коэффициента
+        """
+        if deg > self.deg:
+            self.change_deg(deg)
+
+        self.coefs[deg] = RationalNumber(sign, nomer, denomer)
+
     def change_deg(self, new_deg):
         if self.deg > new_deg:
             for i in range(self.deg + 1, new_deg, -1):
@@ -26,12 +40,6 @@ class Polinom:
             for i in range(self.deg + 1, new_deg + 1):
                 self.coefs[i] = RationalNumber()
         self.deg = new_deg
-
-    def change_coef(self, sign=0, deg=0, nomer="", denomer=""):
-        if deg > self.deg:
-            self.change_deg(deg)
-
-        self.coefs[deg] = RationalNumber(sign, nomer, denomer)
 
     def __str__(self):
         string = ""
