@@ -10,11 +10,12 @@ class Polinom:
         nomer (str): числитель коэффициента
         denomer (str): знаменатель коэффициента
     """
+
     def __init__(self, sign=0, deg=0, nomer="", denomer=""):
         self.deg = deg
         self.coefs = {
             deg: RationalNumber(sign, nomer, denomer)
-                      }
+        }
         for i in range(deg - 1, -1, -1):
             self.coefs[i] = RationalNumber()
 
@@ -54,6 +55,13 @@ class Polinom:
             f"{string}"
             f"}}"
         )
+
+    # Килин Сергей 5381
+    def deg_p_n(self):
+        """
+        Возвращает степень многочлена.
+        """
+        return self.deg
 
 
 if __name__ == "__main__":

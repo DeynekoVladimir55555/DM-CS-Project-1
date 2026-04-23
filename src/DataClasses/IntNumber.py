@@ -7,6 +7,7 @@ class IntNumber:
         хранится в обратном порядке.
         Например число '123' преобразуется в [3, 2, 1].
     """
+
     def __init__(self, sign=0, string=""):
         self.n = len(string) - 1 if len(string) else 0
         self.sign = sign
@@ -25,6 +26,16 @@ class IntNumber:
 
     def to_str(self):
         return ''.join([str(digit) for digit in self.digits[::-1]])
+
+    # Килин Сергей 5381
+    def trans_n_z(self, natural_number):
+        """
+        Преобразование натурального числа в целое
+        Аргументы:
+                natural_number (NaturalNumber): объект NaturalNumber
+        """
+        s = natural_number.to_str()
+        return IntNumber(0, s)
 
 
 if __name__ == "__main__":
