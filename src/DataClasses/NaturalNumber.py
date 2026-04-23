@@ -24,33 +24,51 @@ class NaturalNumber:
     def to_str(self):
         return ''.join([str(digit) for digit in self.digits[::-1]])
 
-    def nzer_n_b(self):  # Является ли число нулём? - Бабаян
+    #Выполнил Бабаян Александр 5381
+    def nzer_n_b(self):
+        """
+            Проверка, является ли натуральное число нулём
+            Аргументы:
+                self - объект натурального числа
+            Возвращает:
+                True - если число не ноль
+                False - если число равно нулю
+        """
         if self.digits[0] != 0:
             return True
         return False
 
-    def add_1n_n(number):  # Прибавление к натуральному числу единицы - Бабаян
-        number.digits.reverse()
-        if number.digits[-1] == 9:
-            for i in range(number.n, -1, -1):
-                if number.digits[i] == 9 and i != 0:
-                    number.digits[i] = 0
-                elif number.digits[i] == 9 and i == 0:
-                    number.digits[i] = 0
-                    number.digits.append(1)
+    # Выполнил Бабаян Александр 5381
+    def add_1n_n(self):
+        """
+            Увеличение натурального числа на 1
+            Аргументы:
+                number - объект натурального числа
+            Возвращает:
+                number - изменённый объект (увеличенный на 1)
+        """
+        self.digits.reverse()
+        if self.digits[-1] == 9:
+            for i in range(self.n, -1, -1):
+                if self.digits[i] == 9 and i != 0:
+                    self.digits[i] = 0
+                elif self.digits[i] == 9 and i == 0:
+                    self.digits[i] = 0
+                    self.digits.append(1)
                 else:
-                    number.digits[i] += 1
+                    self.digits[i] += 1
                     break
-            return number
+            return self
 
-        number.digits[-1] += 1
-        number.digits.reverse()
+        self.digits[-1] += 1
+        self.digits.reverse()
 
-        return number
+        return self
 
 
 if __name__ == "__main__":
     nn = NaturalNumber(input())
     print(nn)
     print(nn.to_str())
+
 
