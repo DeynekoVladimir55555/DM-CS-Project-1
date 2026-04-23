@@ -63,8 +63,6 @@ class NaturalNumber:
         self.digits[-1] += 1
         self.digits.reverse()
 
-        return self
-
 
 if __name__ == "__main__":
     nn = NaturalNumber(input())
