@@ -63,6 +63,10 @@ class NaturalNumber:
         self.digits[-1] += 1
         self.digits.reverse()
 
+    # Выполнила Киселева Ева 5381
+    def mul_nd_n(self):
+        print(self.digits[0])
+
 
 if __name__ == "__main__":
     nn = NaturalNumber(input())
