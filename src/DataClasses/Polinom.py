@@ -82,10 +82,10 @@ class Polinom:
             new_coeff = coeff * power
 
             res.change_coef(
-                sign=new_coeff.sign,
-                deg=i - 1,
-                nomer=str(new_coeff.nomer),
-                denomer=str(new_coeff.denomer)
+                sign = new_coeff.sign,
+                deg = i - 1,
+                nomer = str(new_coeff.nomer),
+                denomer = str(new_coeff.denomer)
             )
         
         while res.deg > 0 and res.coefs[res.deg].nomer == "0":
