@@ -8,10 +8,8 @@ class NaturalNumber:
     """
 
     def __init__(self, string=""):
-        self.n = len(string) - 1 if len(string) else 0
-        self.digits = [0]
-        if string:
-            self.digits = [int(digit) for digit in string[::-1]]
+        self.digits = list(map(int, string[::-1])) if string else [0]
+        self.n = len(self.digits)
 
     def __str__(self):
         return (
