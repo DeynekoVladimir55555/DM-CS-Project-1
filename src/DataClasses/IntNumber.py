@@ -36,7 +36,12 @@ class IntNumber:
         """
         s = natural_number.to_str()
         return IntNumber(0, s)
-
+    # Романенко Вика 5387
+    def mul_zm_z(self): 
+        """
+            Умножение целого числа на -1,
+        """
+        self.sign = 1 - self.sign 
 
 if __name__ == "__main__":
     intnumber = IntNumber(int(input()), input())
