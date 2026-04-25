@@ -63,6 +63,29 @@ class NaturalNumber:
         self.digits[-1] += 1
         self.digits.reverse()
 
+        # Выполнила Киселева Ева 5381
+    def mul_nd_n(self, number):
+        """
+            Умножение натурального числа на цифру
+            Аргументы:
+                number - цифра на которую умножают натуральное число
+            Возращает:
+                result - результат умножения(str)
+        """
+        if number == 0:
+            return '0'
+        plus_n = 0
+        num = []
+        for i in range(len(self.digits)):
+            multi = self.digits[i] * number + plus_n
+            if self.digits[i] == self.digits[-1]:
+                num.append(multi)
+            else:
+                num.append(multi % 10)
+                plus_n = multi // 10
+        result = ''.join([str(i) for i in reversed(num)])
+        return result
+
 
 if __name__ == "__main__":
     nn = NaturalNumber(input())
