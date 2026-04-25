@@ -63,7 +63,7 @@ class NaturalNumber:
         self.digits[-1] += 1
         self.digits.reverse()
 
-        # Выполнила Киселева Ева 5381
+    # Выполнила Киселева Ева 5381
     def mul_nd_n(self, number):
         """
             Умножение натурального числа на цифру
@@ -74,6 +74,7 @@ class NaturalNumber:
         """
         if number == 0:
             return '0'
+
         plus_n = 0
         num = []
         for i in range(len(self.digits)):
@@ -83,7 +84,9 @@ class NaturalNumber:
             else:
                 num.append(multi % 10)
                 plus_n = multi // 10
+
         result = ''.join([str(i) for i in reversed(num)])
+
         return result
 
 
