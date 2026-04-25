@@ -24,6 +24,7 @@ class RationalNumber:
             f"Знаменатель {str_denomer}\n"
             "}"
         )
+    
     #Выолнила: Бондаренко Полина 5381
     def trans_z_q(self, integer_number):
         """
