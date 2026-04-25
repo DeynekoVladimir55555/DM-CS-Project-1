@@ -24,7 +24,16 @@ class RationalNumber:
             f"Знаменатель {str_denomer}\n"
             "}"
         )
-
+    
+    #Выолнила: Бондаренко Полина 5381
+    def trans_q_z(self):
+        """
+        Преобразование сокращенного дробного
+        в целое (если знаменатель равен 1)
+        """
+        if self.denomer.to_str() != "1":
+            raise ValueError("Знаменатель не равен 1, преобразование невозможно")
+        return self.nomer
 
 if __name__ == "__main__":
     rn = RationalNumber(int(input()), input(), input())
