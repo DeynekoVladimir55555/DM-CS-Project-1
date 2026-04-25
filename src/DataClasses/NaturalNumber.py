@@ -24,7 +24,7 @@ class NaturalNumber:
     def to_str(self):
         return ''.join([str(digit) for digit in self.digits[::-1]])
 
-    #Выполнил Бабаян Александр 5381
+    # Выполнил Бабаян Александр 5381
     def nzer_n_b(self):
         """
             Проверка, является ли натуральное число нулём
@@ -44,8 +44,6 @@ class NaturalNumber:
             Увеличение натурального числа на 1
             Аргументы:
                 number - объект натурального числа
-            Возвращает:
-                number - изменённый объект (увеличенный на 1)
         """
         self.digits.reverse()
         if self.digits[-1] == 9:
@@ -69,7 +67,7 @@ class NaturalNumber:
             Умножение натурального числа на цифру
             Аргументы:
                 number - цифра на которую умножают натуральное число
-            Возращает:
+            Возвращает:
                 result - результат умножения(str)
         """
         if number == 0:
@@ -89,17 +87,18 @@ class NaturalNumber:
 
         return result
 
-        #Выполнила Балаян Эдит 5381
+    # Выполнила Балаян Эдит 5381
     def mul_nk_n(self, k):
         """
             Умножение натурального числа на 10^k,
-                k-натуральное (не длинное)
+                k - натуральное (не длинное)
             Аргументы:
-                k-число, в которое возводится 10
+                k - число, в которое возводится 10
             Возвращает:
                 num-результат умножения на 10^k
         """
-        num=[0]*k+self.digits
+        num = [0] * k + self.digits
+
         return ''.join(map(str, reversed(num)))
 
 
@@ -107,5 +106,3 @@ if __name__ == "__main__":
     nn = NaturalNumber(input())
     print(nn)
     print(nn.to_str())
-
-
