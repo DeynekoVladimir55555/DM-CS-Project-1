@@ -66,26 +66,22 @@ class NaturalNumber:
         """
             Умножение натурального числа на цифру
             Аргументы:
-                number - цифра на которую умножают натуральное число
-            Возвращает:
-                result - результат умножения(str)
+                number - цифра на которую умножают натуральное число.
+            Переменные(возможно не понятные):
+                plus_n - число, которое идет на следующий разряд.
         """
         if number == 0:
-            return '0'
-
-        plus_n = 0
-        num = []
-        for i in range(len(self.digits)):
-            multi = self.digits[i] * number + plus_n
-            if self.digits[i] == self.digits[-1]:
-                num.append(multi)
-            else:
-                num.append(multi % 10)
+            self.digits = [0]
+            self.n = 0
+        else:
+            plus_n = 0
+            for i in range(len(self.digits)):
+                multi = self.digits[i] * number + plus_n
+                self.digits[i] = multi % 10
                 plus_n = multi // 10
-
-        result = ''.join([str(i) for i in reversed(num)])
-
-        return result
+                if plus_n > 0 and self.digits[i] == self.digits[-1]:
+                    self.digits.append(plus_n)
+            self.n = len(self.digits) - 1
 
     # Выполнила Балаян Эдит 5381
     def mul_nk_n(self, k):

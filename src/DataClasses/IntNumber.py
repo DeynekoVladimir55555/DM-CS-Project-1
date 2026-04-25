@@ -18,7 +18,7 @@ class IntNumber:
     def __str__(self):
         return (
             f"IntNumber: {{\n\t"
-            f"Знак: {"'-'" if self.sign else '+'}\n\t"
+            f"Знак: {'-' if self.sign else '+'}\n\t"
             f"Старшая позиция: {self.n}, \n\t"
             f"Цифры: {[digit for digit in self.digits[::-1]]}\n"
             f"}}"
@@ -32,14 +32,15 @@ class IntNumber:
         """
         Преобразование натурального числа в целое
         Аргументы:
-                natural_number (NaturalNumber): объект NaturalNumber
+            natural_number (NaturalNumber): объект NaturalNumber
         """
         s = natural_number.to_str()
         return IntNumber(0, s)
+
     # Романенко Вика 5387
     def mul_zm_z(self): 
         """
-            Умножение целого числа на -1,
+            Умножение целого числа на -1
         """
         self.sign = 1 - self.sign 
 
