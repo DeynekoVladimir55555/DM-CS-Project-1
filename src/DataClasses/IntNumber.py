@@ -42,7 +42,7 @@ class IntNumber:
         """
             Умножение целого числа на -1
         """
-        self.sign = 1 - self.sign 
+        self.sign *= -1
 
 if __name__ == "__main__":
     intnumber = IntNumber(int(input()), input())
