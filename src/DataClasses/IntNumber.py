@@ -44,6 +44,15 @@ class IntNumber:
         """
         self.sign *= -1
 
+
+        #Выполнила Балаян Эдит 5381
+    def abs_z_z(self):
+        """ 
+        Абсолютная величина числа
+        """
+        if sgn_z_d()==-1: 
+            self.sign=1
+
 if __name__ == "__main__":
     intnumber = IntNumber(int(input()), input())
     print(intnumber)

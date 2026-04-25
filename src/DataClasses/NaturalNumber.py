@@ -81,13 +81,9 @@ class NaturalNumber:
             k - натуральное (не длинное)
             Аргументы:
                 k - число, в которое возводится 10
-            Возвращает:
-                num - результат умножения на 10^k
         """
-        num = [0] * k + self.digits
-
-        return ''.join(map(str, reversed(num)))
-
+        self.digits = [0] * k + self.digits
+        self.n+=k
 
 if __name__ == "__main__":
     nn = NaturalNumber(input())
