@@ -32,32 +32,25 @@ class NaturalNumber:
                 True - если число не ноль
                 False - если число равно нулю
         """
-        if self.digits[0] != 0:
-            return True
-        return False
+        return self.digits != [0]
 
     # Выполнил Бабаян Александр 5381
     def add_1n_n(self):
         """
             Увеличение натурального числа на 1
-            Аргументы:
-                number - объект натурального числа
         """
-        self.digits.reverse()
-        if self.digits[-1] == 9:
-            for i in range(self.n, -1, -1):
-                if self.digits[i] == 9 and i != 0:
-                    self.digits[i] = 0
-                elif self.digits[i] == 9 and i == 0:
-                    self.digits[i] = 0
-                    self.digits.append(1)
-                else:
-                    self.digits[i] += 1
-                    break
-            return self
+        self.digits[0] += 1
+        self.digits.append(0)
 
-        self.digits[-1] += 1
-        self.digits.reverse()
+        for i in range(self.n):
+            if self.digits[i] // 10:
+                self.digits[i] = 0
+                self.digits[i + 1] += 1
+
+        if self.digits[-1]:
+            self.n += 1
+        else:
+            self.digits = self.digits[:-1]
 
     # Выполнила Киселева Ева 5381
     def mul_nd_n(self, number):
@@ -98,5 +91,7 @@ class NaturalNumber:
 
 if __name__ == "__main__":
     nn = NaturalNumber(input())
+    print(nn.n)
+    nn.add_1n_n()
     print(nn)
     print(nn.to_str())
