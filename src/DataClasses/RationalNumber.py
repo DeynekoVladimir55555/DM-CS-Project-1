@@ -24,8 +24,17 @@ class RationalNumber:
             f"Знаменатель {str_denomer}\n"
             "}"
         )
-
-
+    
+    #Выолнила: Бондаренко Полина 5381
+    def trans_z_q(self, integer_number):
+        """
+        Преобразование целого в дробное.
+        Аргументы:
+            integer_number - целое число (IntNumber).
+        """
+        self.nomer = integer_number
+        self.denomer = NaturalNumber("1")
+    
 if __name__ == "__main__":
     rn = RationalNumber(int(input()), input(), input())
     print(rn)
