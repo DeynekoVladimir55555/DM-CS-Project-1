@@ -1,5 +1,7 @@
 from NaturalNumber import NaturalNumber
 from IntNumber import IntNumber
+from src.IntNumbers.IntFunctions import mul_z_z
+
 
 
 class RationalNumber:
@@ -24,6 +26,15 @@ class RationalNumber:
             f"Знаменатель {str_denomer}\n"
             "}"
         )
+
+    def __mul__(self, other):
+        if isinstance(other, int):
+            mul = IntNumber(1, str(other))
+            res = RationalNumber(self.nomer.sign, "", self.denomer.to_str())
+            res.nomer = mul_z_z(mul, self.nomer)
+
+            return res
+        return None
     
     # Выполнила Бондаренко Полина 5381
     def trans_z_q(self, int_num: IntNumber):
