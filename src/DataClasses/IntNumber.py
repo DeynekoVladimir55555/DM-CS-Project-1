@@ -44,6 +44,14 @@ class IntNumber:
         """
         self.sign *= -1
 
+    # Киселева Ева 5381
+    def sgn_z_d(self):
+        """
+            Определение положительности числа
+        """
+        return self.sign
+    
+
 if __name__ == "__main__":
     intnumber = IntNumber(int(input()), input())
     print(intnumber)
