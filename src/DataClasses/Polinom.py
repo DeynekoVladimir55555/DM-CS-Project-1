@@ -63,6 +63,36 @@ class Polinom:
         """
         return self.deg
 
+    # Выполнила Килина Софья 5381
+    def der_p_p(self):
+        """
+        возвращает новый многочлен - производную от текущего
+        """
+        if self.deg == 0:
+            return Polinom(0, 0, "0", "1")
+
+        res = Polinom(0, 0, "0", "1")
+        res.change_deg(self.deg - 1)
+
+        for i in range(1, self.deg + 1):
+            coeff = self.coefs[i]
+            if coeff.nomer == "0":
+                continue
+            power = RationalNumber(0, str(i), "1")
+            new_coeff = coeff * power
+
+            res.change_coef(
+                sign = new_coeff.sign,
+                deg = i - 1,
+                nomer = str(new_coeff.nomer),
+                denomer = str(new_coeff.denomer)
+            )
+        
+        while res.deg > 0 and res.coefs[res.deg].nomer == "0":
+            res.change_deg(res.deg - 1)
+
+        return res
+
 
 if __name__ == "__main__":
     p = Polinom(1, 3, "23457", "23712")
