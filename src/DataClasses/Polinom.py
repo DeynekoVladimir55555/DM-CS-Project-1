@@ -77,7 +77,7 @@ class Polinom:
 
         for i in range(1, self.deg + 1):
             coeff = self.coefs[i]
-            if coeff.nomer == "0":
+            if coeff.nomer.sign == 0:
                 continue
             power = RationalNumber(1, str(i), "1")
             new_coeff = coeff * power

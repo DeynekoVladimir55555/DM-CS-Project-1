@@ -35,7 +35,7 @@ class IntNumber:
             natural_number (NaturalNumber): объект NaturalNumber
         """
         s = natural_number.to_str()
-        return IntNumber(0, s)
+        return IntNumber(1, s)
 
     # Романенко Вика 5387
     def mul_zm_z(self): 
