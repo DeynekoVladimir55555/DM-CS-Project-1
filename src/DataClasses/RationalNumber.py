@@ -25,15 +25,15 @@ class RationalNumber:
             "}"
         )
     
-    #Выолнила: Бондаренко Полина 5381
-    def trans_z_q(self, integer_number):
+    # Выполнила Бондаренко Полина 5381
+    @staticmethod
+    def trans_z_q(int_num: IntNumber):
         """
         Преобразование целого в дробное.
         Аргументы:
             integer_number - целое число (IntNumber).
         """
-        self.nomer = integer_number
-        self.denomer = NaturalNumber("1")
+        return RationalNumber(int_num.sign, int_num.to_str(), "1")
     
 if __name__ == "__main__":
     rn = RationalNumber(int(input()), input(), input())
