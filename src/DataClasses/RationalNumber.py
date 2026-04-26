@@ -1,12 +1,12 @@
-from src.DataClasses.NaturalNumber import NaturalNumber
-from src.DataClasses.IntNumber import IntNumber
+from NaturalNumber import NaturalNumber
+from IntNumber import IntNumber
 
 
 class RationalNumber:
     """
     Реализация больших рациональных чисел
     Атрибуты:
-        sign (int): знак числа, 1 - минус, 0 - плюс.
+        sign (int): знак числа, 1 - плюс, 0 - для числа 0, -1 - минус.
         nomer (str): строковое представление числителя.
         denomer (str): строковое представление знаменятеля.
     """

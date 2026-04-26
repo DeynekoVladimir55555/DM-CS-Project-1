@@ -5,7 +5,7 @@ class Polinom:
     """
     Реализация многочлена
     Аргументы:
-        sign (int): 1 - минус, 0 - плюс.
+        sign (int): 1 - плюс, 0 - для числа 0, -1 - минус.
         deg (int): степень члена
         nomer (str): числитель коэффициента
         denomer (str): знаменатель коэффициента
@@ -23,7 +23,7 @@ class Polinom:
         """
         Добавление нового члена в многочлен или изменение старого
         Аргументы как при инициализации:
-            sign (int): 1 - минус, 0 - плюс.
+            sign (int): 1 - плюс, 0 - для числа 0, -1 - минус.
             deg (int): степень члена
             nomer (str): числитель коэффициента
             denomer (str): знаменатель коэффициента
@@ -56,7 +56,7 @@ class Polinom:
             f"}}"
         )
 
-    # Килин Сергей 5381
+    # Выполнил Килин Сергей 5381
     def deg_p_n(self):
         """
         Возвращает степень многочлена.
@@ -66,19 +66,20 @@ class Polinom:
     # Выполнила Килина Софья 5381
     def der_p_p(self):
         """
-        возвращает новый многочлен - производную от текущего
+        Возвращает новый многочлен - производную от текущего
         """
-        if self.deg == 0:
-            return Polinom(0, 0, "0", "1")
-
         res = Polinom(0, 0, "0", "1")
+
+        if self.deg == 0:
+            return res
+
         res.change_deg(self.deg - 1)
 
         for i in range(1, self.deg + 1):
             coeff = self.coefs[i]
             if coeff.nomer == "0":
                 continue
-            power = RationalNumber(0, str(i), "1")
+            power = RationalNumber(1, str(i), "1")
             new_coeff = coeff * power
 
             res.change_coef(
