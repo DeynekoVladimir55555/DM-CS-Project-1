@@ -95,6 +95,12 @@ class Polinom:
 
         return res
 
+    # Выполнила Киселева Ева 5381
+    def led_p_q(self):
+        """
+            Возвращает cтарший коэффициент многочлена
+        """
+        return self.coefs[self.deg]
 
 if __name__ == "__main__":
     p = Polinom(1, 3, "23457", "23712")
@@ -102,3 +108,4 @@ if __name__ == "__main__":
     p.change_coef(1, 5, "234", "54")
     p.change_coef(1, 2, "543", "23")
     print(p)
+    
