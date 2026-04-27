@@ -35,6 +35,23 @@ class RationalNumber:
 
             return res
         return None
+
+    # Зуева Екатерина 5381
+    def to_short(self):
+        """
+        Сокращение дроби. (в процессе)
+        """
+
+    # Зуева Екатерина 5381
+    def is_int(self):
+        """
+        Проверка сокращенного дробного на целое,
+        если рациональное число является целым, то "да", иначе "нет".
+        """
+        self.to_short()
+        if self.denomer.to_str() == "1":
+            return "да"
+        return "нет"
     
     # Выполнила Бондаренко Полина 5381
     def trans_z_q(self, int_num: IntNumber):
