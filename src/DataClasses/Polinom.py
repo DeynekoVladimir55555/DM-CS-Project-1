@@ -64,11 +64,15 @@ class Polinom:
         """
         return self.deg
 
-    # Зуева Екатерина 5381
-    def product_x_k(self, k):
+    # Выполнила Зуева Екатерина 5381
+    def mul_pxk_p(self, k: int):
         """
-        Умножает многочлен на x^k, k-натуральное или 0.
-        Если k != 0 cоздаём и заполняем новый словарь для коэффициентов, чтобы доступ к элементам был корректен.
+        Умножает многочлен на x^k. Если k != 0, создаёт и
+        заполняет новый словарь для коэффициентов,
+        чтобы доступ к элементам был корректен.
+        Аргументы:
+            k (int): степень x
+                k >= 0
         """
         if k == 0:
             return
@@ -95,8 +99,7 @@ class Polinom:
             coeff = self.coefs[i]
             if coeff.nomer.sign == 0:
                 continue
-            power = RationalNumber(1, str(i), "1")
-            new_coeff = coeff * power
+            new_coeff = coeff * i
 
             res.change_coef(
                 sign = new_coeff.sign,
@@ -113,7 +116,7 @@ class Polinom:
     # Выполнила Киселева Ева 5381
     def led_p_q(self):
         """
-            Возвращает cтарший коэффициент многочлена
+        Возвращает старший коэффициент многочлена
         """
         return self.coefs[self.deg]
 

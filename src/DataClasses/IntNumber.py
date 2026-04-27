@@ -7,10 +7,10 @@ class IntNumber:
         sign (int): знак числа, 1 - плюс, 0 - для числа 0, -1 - минус
         string (str): строковое представление числа,
         хранится в обратном порядке.
-        Например число '123' преобразуется в [3, 2, 1].
+    Например, число '123' преобразуется в [3, 2, 1].
     """
 
-    def __init__(self, sign=0, string=""):
+    def __init__(self, sign: int = 0, string: list[str] | str = ""):
         self.n = len(string) - 1 if len(string) else 0
         self.sign = sign
         self.digits = [0]
@@ -29,44 +29,46 @@ class IntNumber:
     def to_str(self):
         return ''.join([str(digit) for digit in self.digits[::-1]])
 
-    # Килин Сергей 5381
-    def trans_n_z(self, natural_number):
+    # Выполнил Килин Сергей 5381
+    @staticmethod
+    def trans_n_z(natural_num: NaturalNumber):
         """
         Преобразование натурального числа в целое
         Аргументы:
-            natural_number (NaturalNumber): объект NaturalNumber
+            natural_num (NaturalNumber): объект NaturalNumber
         """
-        s = natural_number.to_str()
+        s = natural_num.to_str()
         return IntNumber(1, s)
 
-    # Зуева Екатерина 5381
-    def trans_z_n(self):
+    # Выполнила Зуева Екатерина 5381
+    def trans_z_n(self) -> NaturalNumber:
         """
         Преобразование целого неотрицательного числа в натуральное
         """
         return NaturalNumber(self.to_str())
 
-    # Романенко Вика 5387
+    # Выполнила Романенко Вика 5387
     def mul_zm_z(self): 
         """
-            Умножение целого числа на -1
+        Умножение целого числа на -1
         """
         self.sign *= -1
 
-    # Киселева Ева 5381
+    # Выполнила Киселева Ева 5381
     def sgn_z_d(self):
         """
-            Определение положительности числа
+        Определение положительности числа
         """
         return self.sign
 
     # Выполнила Балаян Эдит 5381
-    def abs_z_z(self):
+    def abs_z_n(self):
         """
         Абсолютная величина числа
         """
         if self.sgn_z_d() == -1:
             self.sign = 1
+
 
 if __name__ == "__main__":
     intnumber = IntNumber(int(input()), input())

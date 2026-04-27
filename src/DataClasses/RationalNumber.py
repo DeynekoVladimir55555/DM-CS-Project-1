@@ -1,7 +1,6 @@
 from NaturalNumber import NaturalNumber
 from IntNumber import IntNumber
-from src.IntNumbers.IntFunctions import mul_z_z
-
+from ..IntNumbers.IntFunctions import mul_z_z
 
 
 class RationalNumber:
@@ -34,31 +33,31 @@ class RationalNumber:
             res.nomer = mul_z_z(mul, self.nomer)
 
             return res
+
         return None
 
-    # Зуева Екатерина 5381
-    def to_short(self):
+    # Выполнила Зуева Екатерина 5381
+    def red_q_q(self):
         """
         Сокращение дроби. (в процессе)
         """
 
-    # Зуева Екатерина 5381
-    def is_int(self):
+    # Выполнила Зуева Екатерина 5381
+    def int_q_b(self):
         """
-        Проверка сокращенного дробного на целое,
-        если рациональное число является целым, то "да", иначе "нет".
+        Проверка сокращенного дробного на целое.
+        Если рациональное число является целым,
+        то возвращает True, иначе - False.
         """
-        self.to_short()
-        if self.denomer.to_str() == "1":
-            return "да"
-        return "нет"
+        self.red_q_q()
+        return self.denomer.digits == [1]
     
     # Выполнила Бондаренко Полина 5381
     def trans_z_q(self, int_num: IntNumber):
         """
         Преобразование целого в дробное.
         Аргументы:
-            int_num - целое число (IntNumber).
+            int_num (IntNumber): целое число
         """
         self.nomer = int_num
         self.denomer = NaturalNumber("1")
