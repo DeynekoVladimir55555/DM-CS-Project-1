@@ -64,6 +64,21 @@ class Polinom:
         """
         return self.deg
 
+    # Зуева Екатерина 5381
+    def product_x_k(self, k):
+        """
+        Умножает многочлен на x^k, k-натуральное или 0.
+        Если k != 0 cоздаём и заполняем новый словарь для коэффициентов, чтобы доступ к элементам был корректен.
+        """
+        if k == 0:
+            return
+
+        new_coefs = {}
+        for deg, coef in self.coefs.items():
+            new_coefs[deg + k] = coef
+        self.coefs = new_coefs
+        self.deg += k
+
     # Выполнила Килина Софья 5381
     def der_p_p(self):
         """
