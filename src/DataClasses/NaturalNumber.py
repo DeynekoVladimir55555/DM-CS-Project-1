@@ -86,6 +86,80 @@ class NaturalNumber:
         """
         self.digits = [0] * k + self.digits
         self.n += k
+        
+    # Выполнил Бабаян Александр 5381
+    def com_nn_d(self, number2):
+        """
+            Сравнение двух натуральных чисел
+            Аргументы:
+                self - первое натуральное число
+                number2 - второе натуральное число
+            Возвращает:
+                2 - если первое число больше второго
+                1 - если второе число больше первого
+                0 - если числа равны
+        """
+        if self.n > number2.n:
+            return 2
+        elif self.n < number2.n:
+            return 1
+
+        for i in range(self.n + 1):
+            if self.digits[i] > number2.digits[i]:
+                return 2
+            elif self.digits[i] == number2.digits[i]:
+                continue
+            else:
+                return 1
+
+        return 0
+
+    # Выполнил Бабаян Александр 5381
+    def add_nn_n(self, number2):
+        """
+            Сложение двух натуральных чисел
+            Аргументы:
+                self - первое слагаемое
+                number2 - второе слагаемое
+            Возвращает:
+                final_number - объект NaturalNumber, результат сложения
+        """
+        tmp = 0
+        result = []
+        if self.com_nn_d(number2) == 2:
+            min_length = number2.n + 1
+            max_length = self.n + 1
+        elif self.com_nn_d(number2) == 1:
+            min_length = self.n + 1
+            max_length = number2.n + 1
+        else:
+            min_length = self.n + 1
+            max_length = number2.n + 1
+
+        self.digits.reverse()
+        number2.digits.reverse()
+
+        for i in range(-1, (-1) * min_length - 1, -1):
+            if (self.digits[i] + number2.digits[i] + tmp) >= 10:
+                result.append(int(list(str(self.digits[i] + number2.digits[i] + tmp))[1]))
+                tmp = 1
+            else:
+                result.append(int(list(str(self.digits[i] + number2.digits[i] + tmp))[0]))
+                tmp = 0
+
+        for j in range(max_length - min_length - 1, -1, -1):
+            if self.n > number2.n:
+                result.append(self.digits[j] + tmp)
+                tmp = 0
+            else:
+                result.append(number2.digits[j] + tmp)
+                tmp = 0
+        if tmp == 1:
+            result.append(1)
+        result.reverse()
+        final_number = NaturalNumber(result)
+
+        return final_number
 
 
 if __name__ == "__main__":
