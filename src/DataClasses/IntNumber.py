@@ -62,7 +62,7 @@ class IntNumber:
         return self.sign
 
     # Выполнила Балаян Эдит 5381
-    def abs_z_n(self):
+    def abs_z_z(self):
         """
         Абсолютная величина числа
         """
