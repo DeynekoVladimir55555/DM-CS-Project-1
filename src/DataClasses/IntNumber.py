@@ -1,3 +1,5 @@
+from NaturalNumber import NaturalNumber
+
 class IntNumber:
     """
     Реализация больших целых чисел
@@ -36,6 +38,13 @@ class IntNumber:
         """
         s = natural_number.to_str()
         return IntNumber(1, s)
+
+    # Зуева Екатерина 5381
+    def trans_z_n(self):
+        """
+        Преобразование целого неотрицательного числа в натуральное
+        """
+        return NaturalNumber(self.to_str())
 
     # Романенко Вика 5387
     def mul_zm_z(self): 
