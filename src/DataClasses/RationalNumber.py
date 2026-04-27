@@ -50,7 +50,7 @@ class RationalNumber:
         то возвращает True, иначе - False.
         """
         self.red_q_q()
-        return self.denomer.digits == [1]
+        return self.denomer.to_str() == "1"
     
     # Выполнила Бондаренко Полина 5381
     def trans_z_q(self, int_num: IntNumber):
@@ -63,7 +63,7 @@ class RationalNumber:
         self.denomer = NaturalNumber("1")
 
     # Выполнила Бондаренко Полина 5381
-    def trans_q_z(self):
+    def trans_q_z(self) -> IntNumber:
         """
         Преобразование сокращенного дробного
         в целое (если знаменатель равен 1)
