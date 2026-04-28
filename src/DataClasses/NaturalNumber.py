@@ -113,49 +113,28 @@ class NaturalNumber:
 
     # Выполнил Бабаян Александр 5381
     def add_nn_n(self, number2):
-        """
-        Сложение двух натуральных чисел
-        Аргументы:
-            number2 (NaturalNumber): второе слагаемое
-        Возвращает:
-            final_number (NaturalNumber): результат сложения
-        """
-        tmp = 0
-        result = []
         if self.com_nn_d(number2) == 2:
             min_length = number2.n + 1
             max_length = self.n + 1
+            number2.digits = number2.digits + [0] * (max_length - min_length)
         elif self.com_nn_d(number2) == 1:
             min_length = self.n + 1
             max_length = number2.n + 1
+            self.digits = self.digits + [0] * (max_length - min_length)
         else:
-            min_length = self.n + 1
             max_length = number2.n + 1
 
-        self.digits.reverse()
-        number2.digits.reverse()
+        result = []
+        tmp = 0
 
-        for i in range(-1, (-1) * min_length - 1, -1):
-            if (self.digits[i] + number2.digits[i] + tmp) >= 10:
-                result.append(int(list(str(self.digits[i] + number2.digits[i] + tmp))[1]))
-                tmp = 1
-            else:
-                result.append(int(list(str(self.digits[i] + number2.digits[i] + tmp))[0]))
-                tmp = 0
-
-        for j in range(max_length - min_length - 1, -1, -1):
-            if self.n > number2.n:
-                result.append(self.digits[j] + tmp)
-                tmp = 0
-            else:
-                result.append(number2.digits[j] + tmp)
-                tmp = 0
+        for i in range(max_length):
+            result.append((self.digits[i] + number2.digits[i] + tmp) % 10)
+            tmp = (self.digits[i] + number2.digits[i] + tmp) // 10
         if tmp == 1:
             result.append(1)
-        result.reverse()
-        final_number = NaturalNumber(result)
+        final_result = NaturalNumber(''.join(map(str, result[::-1])))
 
-        return final_number
+        return final_result
 
     # Выполнила Килина Софья 5381
     def div_nn_dk(self, number):
