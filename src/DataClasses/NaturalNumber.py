@@ -88,6 +88,27 @@ class NaturalNumber:
 
         return ''.join(map(str, reversed(num)))
 
+    # Выполнила Килина Софья 5381
+    def sub_ndn_n(self, number, digit):
+        """
+            Вычитает из текущего числа (self) число (number * digit).
+        """
+        copy = NaturalNumber()
+        copy.digits = number.digits[:]
+        copy.n = number.n
+
+        copy.mul_nd_n(digit)
+
+        cmp = self.com_nn_d(self.digits, copy.digits)
+        if cmp == 2 or cmp == 0:
+            self.digits = self.sub_nn_n(self.digits, copy.digits)
+            self.n = len(self.digits) - 1
+            if len(self.digits) == 1 and self.digits[0] == 0:
+                self.n = 0
+            return self
+        else:
+            return "error in sub_ndn_n"
+
 
 if __name__ == "__main__":
     nn = NaturalNumber(input())
