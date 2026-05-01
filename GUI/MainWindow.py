@@ -1,5 +1,6 @@
-from PyQt6.QtWidgets import QMainWindow, QHBoxLayout, QVBoxLayout, QFrame, QLabel, QPushButton, QButtonGroup, QTextEdit, \
-    QComboBox
+from PyQt6.QtWidgets import QMainWindow, QHBoxLayout, \
+    QVBoxLayout, QFrame, QLabel, QPushButton, QButtonGroup, \
+    QTextEdit, QComboBox, QTextBrowser
 
 from GUI.uis.main_ui import Ui_MainWindow
 from src.run import run
@@ -13,6 +14,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.pw = None
         self.containers = []
         self.text_edits = []
+        self.combos = [[], [], [], []]
         self.operations = operations
         self.active_container = None
         self.btn_group = QButtonGroup(self)
@@ -21,6 +23,11 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.main_layout = QHBoxLayout()
         self.centralwidget.setLayout(self.main_layout)
         self.main_layout.addStretch(7)
+
+        self.add_coef_a = QPushButton("Добавить")
+        self.add_coef_b = QPushButton("Добавить")
+        self.add_coef_a.clicked.connect(lambda: self.add_to_pol("a"))
+        self.add_coef_b.clicked.connect(lambda: self.add_to_pol("b"))
 
         self.main_layout.addWidget(self.create_set_nat(), stretch=7)
         self.main_layout.addWidget(self.create_set_int(), stretch=7)
@@ -87,6 +94,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                 combo = QComboBox()
                 combo.addItems(["+", "-"])
                 inputs.addWidget(combo)
+                self.combos[1].append(combo)
             te = QTextEdit(input_names[i + 1])
             te.setMaximumHeight(70)
             inputs.addWidget(te)
@@ -120,6 +128,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             combo = QComboBox()
             combo.addItems(["+", "-"])
             inputs.addWidget(combo)
+            self.combos[2].append(combo)
 
             v_input = QVBoxLayout()
             v_input.addStretch(5)
@@ -154,15 +163,69 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
     def create_set_pol(self):
         set_pol = QFrame()
-        main_lay = QVBoxLayout(set_pol)
+        main_lay = QHBoxLayout(set_pol)
         edits = []
 
+        inputs = QVBoxLayout()
+        inputs.addStretch(1)
+        input_names = ["Введите коэффициент многочлена А", "Введите коэффициент многочлена B", "X^"]
+        for i in range(2):
+            inputs.addWidget(QLabel(input_names[i]))
+            pol_input = QHBoxLayout()
 
+            combo = QComboBox()
+            combo.setMaximumWidth(40)
+            combo.addItems(["+", "-"])
+            pol_input.addWidget(combo)
+            self.combos[3].append(combo)
+
+            edit = QVBoxLayout()
+            for j in range(2):
+                te = QTextEdit(str(j))
+                te.setMaximumHeight(70)
+                te.setMaximumWidth(100)
+                edit.addWidget(te)
+                edits.append(te)
+            pol_input.addLayout(edit)
+
+            pol_input.addWidget(QLabel(input_names[2]))
+            te = QTextEdit("1")
+            te.setMaximumHeight(30)
+            te.setMaximumWidth(50)
+            edits.append(te)
+            pol_input.addWidget(te)
+            pol_input.addWidget([self.add_coef_a if i == 0 else self.add_coef_b][0])
+            pol_input.addStretch(4)
+
+            inputs.addLayout(pol_input)
+            inputs.addStretch(1)
+
+        polinoms = QVBoxLayout()
+        polinoms.addStretch(1)
+        polinoms.addWidget(QTextBrowser())
+        polinoms.addStretch(1)
+        polinoms.addWidget(QTextBrowser())
+        polinoms.addStretch(1)
+
+        btns = QVBoxLayout()
+        btn_names = ["A + B", "A - B", "A * B", "A div B", "A mod B", "НОД",
+                     "Кратные корни А\n в простые", "Кратные корни В\n в простые"]
+        for i in range(16, 24):
+            btn = QPushButton(btn_names[i - 16])
+            btns.addWidget(btn)
+            self.btn_group.addButton(btn, i)
+
+        main_lay.addLayout(inputs)
+        main_lay.addLayout(polinoms)
+        main_lay.addLayout(btns)
 
         self.containers.append(set_pol)
         self.text_edits.append(edits)
         set_pol.hide()
         return set_pol
+
+    def add_to_pol(self, which):
+        print("added", which)
 
     def call_operation(self, btn_id):
         if btn_id < 7:

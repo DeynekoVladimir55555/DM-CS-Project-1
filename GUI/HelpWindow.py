@@ -1,5 +1,4 @@
 from PyQt6.QtWidgets import QWidget
-from PyQt6.uic import loadUi
 from PyQt6.QtCore import Qt
 from GUI.uis.help_ui import Ui_Help
 
