@@ -11,6 +11,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.hw = None
         self.pw = None
         self.containers = []
+        self.text_edits = []
         self.active_container = None
         self.btn_group = QButtonGroup(self)
         self.btn_group.idClicked.connect(self.call_operation)
@@ -45,6 +46,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def create_set_nat(self):
         set_nat = QFrame()
         main_lay = QHBoxLayout(set_nat)
+        edits = []
 
         inputs = QHBoxLayout()
         input_names = ["Введите число A", "0", "Введите число B", "0", "Ответ", ""]
@@ -53,6 +55,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             te = QTextEdit(input_names[i + 1])
             te.setMaximumHeight(70)
             inputs.addWidget(te)
+            edits.append(te)
 
         btns = QVBoxLayout()
         btn_names = ["A + 1", "B + 1", "A + B", "|A - B|", "A * B", "НОД", "НОК"]
@@ -65,12 +68,14 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         main_lay.addLayout(btns, stretch=1)
 
         self.containers.append(set_nat)
+        self.text_edits.append(edits)
         set_nat.hide()
         return set_nat
 
     def create_set_int(self):
         set_int = QFrame()
         main_lay = QHBoxLayout(set_int)
+        edits = []
 
         inputs = QHBoxLayout()
         input_names = ["Введите число А", "0", "Введите число В", "0", "Ответ", ""]
@@ -83,6 +88,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             te = QTextEdit(input_names[i + 1])
             te.setMaximumHeight(70)
             inputs.addWidget(te)
+            edits.append(te)
 
         btns = QVBoxLayout()
         btn_names = ["A + B", "A - B", "A * B", "A div B", "A mod B"]
@@ -95,6 +101,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         main_lay.addLayout(btns, stretch=1)
 
         self.containers.append(set_int)
+        self.text_edits.append(edits)
         set_int.hide()
         return set_int
 
