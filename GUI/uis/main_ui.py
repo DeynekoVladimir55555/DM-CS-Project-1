@@ -47,6 +47,6 @@ class Ui_MainWindow(object):
         MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
         self.natButton.setText(_translate("MainWindow", "Натуральные"))
         self.intButton.setText(_translate("MainWindow", "Целые"))
-        self.ratButton.setText(_translate("MainWindow", "Вещественные"))
+        self.ratButton.setText(_translate("MainWindow", "Рациональные"))
         self.polButton.setText(_translate("MainWindow", "Многочлены"))
         self.helpButton.setText(_translate("MainWindow", "Справка"))

@@ -12,3 +12,5 @@ class HelpWindow(QWidget, Ui_Help):
 
         self.closeButton.clicked.connect(self.close)
 
+    def set_text(self, text):
+        self.helpBrowser.setText()
