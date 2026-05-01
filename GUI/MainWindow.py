@@ -2,16 +2,18 @@ from PyQt6.QtWidgets import QMainWindow, QHBoxLayout, QVBoxLayout, QFrame, QLabe
     QComboBox
 
 from GUI.uis.main_ui import Ui_MainWindow
+from src.run import run
 
 
 class MainWindow(QMainWindow, Ui_MainWindow):
-    def __init__(self):
+    def __init__(self, operations):
         super().__init__()
         self.setupUi(self)
         self.hw = None
         self.pw = None
         self.containers = []
         self.text_edits = []
+        self.operations = operations
         self.active_container = None
         self.btn_group = QButtonGroup(self)
         self.btn_group.idClicked.connect(self.call_operation)
@@ -107,22 +109,69 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
     def create_set_rat(self):
         set_rat = QFrame()
-        lay = QVBoxLayout(set_rat)
-        lay.addWidget(QLabel("-----set rat-----"))
+        main_lay = QHBoxLayout(set_rat)
+        edits = []
+
+        inputs = QHBoxLayout()
+        input_names = ["Введите число А", "0", "1", "Введите число В", "0", "1"]
+        for i in range(0, 6, 3):
+            inputs.addWidget(QLabel(input_names[i]))
+
+            combo = QComboBox()
+            combo.addItems(["+", "-"])
+            inputs.addWidget(combo)
+
+            v_input = QVBoxLayout()
+            v_input.addStretch(5)
+            for j in range(1, 3):
+                te = QTextEdit(input_names[i + j])
+                te.setMaximumHeight(70)
+                v_input.addWidget(te)
+                edits.append(te)
+            v_input.addStretch(5)
+
+            inputs.addLayout(v_input)
+
+        inputs.addWidget(QLabel("Ответ"))
+        te = QTextEdit()
+        te.setMaximumHeight(70)
+        inputs.addWidget(te)
+
+        btns = QVBoxLayout()
+        btn_names = ["A + B", "A - B", "A * B", "A / B"]
+        for i in range(12, 16):
+            btn = QPushButton(btn_names[i - 12])
+            btns.addWidget(btn)
+            self.btn_group.addButton(btn, i)
+
+        main_lay.addLayout(inputs, stretch=6)
+        main_lay.addLayout(btns, stretch=1)
+
         self.containers.append(set_rat)
+        self.text_edits.append(edits)
         set_rat.hide()
         return set_rat
 
     def create_set_pol(self):
         set_pol = QFrame()
-        lay = QVBoxLayout(set_pol)
-        lay.addWidget(QLabel("-----set pol-----"))
+        main_lay = QVBoxLayout(set_pol)
+        edits = []
+
+
+
         self.containers.append(set_pol)
+        self.text_edits.append(edits)
         set_pol.hide()
         return set_pol
 
     def call_operation(self, btn_id):
-        print("Button Pressed", btn_id)
+        if btn_id < 7:
+            pass
+
+        if btn_id < 12:
+            pass
+
+        print("Called", btn_id)
 
     def hide_set(self):
         if self.active_container is not None:
