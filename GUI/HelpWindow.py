@@ -1,10 +1,14 @@
 from PyQt6.QtWidgets import QWidget
 from PyQt6.uic import loadUi
+from PyQt6.QtCore import Qt
+from GUI.uis.help_ui import Ui_Help
 
 
-class HelpWindow(QWidget):
-    def __init__(self):
-        super().__init__()
-        loadUi("GUI/uis/HelpWindow.ui", self)
+class HelpWindow(QWidget, Ui_Help):
+    def __init__(self, parent=None):
+        super().__init__(parent)
+        self.setupUi(self)
+        self.setWindowFlags(Qt.WindowType.Window | Qt.WindowType.WindowStaysOnTopHint)
 
         self.closeButton.clicked.connect(self.close)
+

@@ -12,8 +12,9 @@ from GUI.HelpWindow import HelpWindow
 def main():
     # GUI
     app = QApplication(sys.argv)
-    hw = HelpWindow()
-    mw = MainWindow(hw)
+    mw = MainWindow()
+    hw = HelpWindow(mw)
+    mw.add_hw(hw)
 
     mw.show()
 
