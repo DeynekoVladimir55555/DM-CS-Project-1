@@ -1,3 +1,5 @@
+from ..NaturalNumbers.NaturalFunctions import sub_nn_n
+
 class NaturalNumber:
     """
     Реализация больших натуральных чисел
@@ -139,11 +141,14 @@ class NaturalNumber:
     # Выполнила Килина Софья 5381
     def div_nn_dk(self, number):
         """
-        Возвращает кортеж (count, k), где count – первая цифра частного,
-        k – номер позиции этой цифры (степень 10^k), такие что:
-        count * number * 10^k <= self < (count+1) * number * 10^k
+        Возвращает кортеж (count, k), где
+        count – первая цифра частного,
+        k – номер позиции этой цифры.
+        count * number * 10^k <= self < (count + 1) * number * 10^k
+        Аргументы:
+            number (NaturalNumber): делитель
         """
-        cmp = self.com_nn_d(self.digits, number.digits)
+        cmp = self.com_nn_d(number)
         if cmp == 0:
             return 1, 0
         if cmp == 1:
@@ -167,7 +172,7 @@ class NaturalNumber:
         n3 = NaturalNumber()
         n3.digits = s.digits[:]
         n3.n = s.n
-        while self.com_nn_d(b.digits, n3.digits) == 2:
+        while b.com_nn_d(n3) == 2:
             k += 1
             n3.digits = bs.digits[:]
             n3.n = bs.n
@@ -189,16 +194,17 @@ class NaturalNumber:
         n3 = NaturalNumber()
         n3.digits = s.digits[:]
         n3.n = s.n
-        while self.com_nn_d(b.digits, n3.digits) == 2:
+        while b.com_nn_d(n3) == 2:
             count += 1
             n3.digits = tm.digits[:]
             n3.n = tm.n
             n3.mul_nd_n(count)
-        if self.com_nn_d(b.digits, n3.digits) != 0:
+        if b.com_nn_d(n3) != 0:
             count -= 1
         if count == 10:
             count = 1
             k += 1
+
         return count, k
 
     # Выполнила Килина Софья 5381
@@ -212,9 +218,9 @@ class NaturalNumber:
 
         copy.mul_nd_n(digit)
 
-        cmp = self.com_nn_d(self.digits, copy.digits)
+        cmp = self.com_nn_d(copy)
         if cmp == 2 or cmp == 0:
-            self.digits = self.sub_nn_n(self.digits, copy.digits)
+            self.digits = sub_nn_n(self.digits, copy.digits)
             self.n = len(self.digits) - 1
             if len(self.digits) == 1 and self.digits[0] == 0:
                 self.n = 0

@@ -1,4 +1,4 @@
-from src.DataClasses.NaturalNumber import NaturalNumber
+from ..DataClasses.NaturalNumber import NaturalNumber
 
 
 def sub_nn_n(self, number2):
