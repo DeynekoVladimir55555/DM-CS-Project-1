@@ -62,3 +62,55 @@ def sub_nn_n(self, number2):
     final_number = NaturalNumber(result)
 
     return final_number
+
+# Выполнила Романенко Вика 5387
+def div_nn_n(self, number2):
+    """
+    Неполное частное от деления первого натурального числа на второе с остатком
+    Аргументы:
+        number2 (NaturalNumber): делитель (отличен от нуля)
+    Возвращает:
+        NaturalNumber: неполное частное
+    """
+    if not number2.nzer_n_b():
+        raise ZeroDivisionError("Деление на ноль!")
+
+    if self.com_nn_d(number2) == 1:
+        return NaturalNumber("0")
+
+    copy_delimoe = NaturalNumber(self.to_str())
+    delitel = number2
+
+    razrad = []
+
+    while copy_delimoe.com_nn_d(delitel) != 1:
+        digit, k = copy_delimoe.div_nn_dk(delitel)
+
+        while len(razrad) <= k:
+            razrad.append(0)
+        razrad[k] = digit
+
+        temp = NaturalNumber(delitel.to_str())
+        temp.mul_nd_n(digit)
+        temp.mul_nk_n(k)
+        copy_delimoe = copy_delimoe.sub_ndn_n(temp, 1)
+
+    razrad.reverse()
+    result_str = ''.join(map(str, razrad))
+
+    return NaturalNumber(result_str)
+
+
+# Выполнила Романенко Вика 5387
+def lcm_nn_n(self, number2):
+    """
+    НОК (наименьшее общее кратное) натуральных чисел
+    Аргументы:
+        number2 (NaturalNumber): второе натуральное число
+    Возвращает:
+        NaturalNumber: НОК двух чисел
+    """
+    gcd = self.gcf_nn_n(number2)
+    product = self.mul_nn_n(number2)
+    result = product.div_nn_n(gcd)
+    return result
