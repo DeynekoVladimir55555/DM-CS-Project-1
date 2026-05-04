@@ -1,5 +1,6 @@
 from NaturalNumber import NaturalNumber
 
+
 class IntNumber:
     """
     Реализация больших целых чисел
@@ -48,7 +49,7 @@ class IntNumber:
         return NaturalNumber(self.to_str())
 
     # Выполнила Романенко Вика 5387
-    def mul_zm_z(self): 
+    def mul_zm_z(self):
         """
         Умножение целого числа на -1
         """
@@ -68,6 +69,37 @@ class IntNumber:
         """
         if self.sgn_z_d() == -1:
             self.sign = 1
+
+    # Выполнил Килин Сергей 5381
+    def add_zz_z(self, number2):
+        """
+        Сложение двух целых чисел.
+        Аргументы:
+            number2 (IntNumber): второе целое число
+        Возвращает:
+            Новое IntNumber — результат суммы
+        """
+        a = IntNumber(self.sign, self.to_str())
+        a.abs_z_z()
+        b = IntNumber(number2.sign, number2.to_str())
+        b.abs_z_z()
+        nat_a = a.trans_z_n()
+        nat_b = b.trans_z_n()
+
+        sign_a = self.sgn_z_d()
+        sign_b = number2.sgn_z_d()
+        if sign_a == sign_b:
+            nat_result = nat_a.add_nn_n(nat_b)
+            return IntNumber(sign_a, nat_result.to_str())
+        cmp = nat_a.com_nn_d(nat_b)
+        if cmp == 0:
+            return IntNumber(0, "0")
+        elif cmp == 2:
+            digits = sub_nn_n(nat_a.digits, nat_b.digits)
+            return IntNumber(sign_a, ''.join(map(str, digits[::-1])))
+        else:
+            digits = sub_nn_n(nat_b.digits, nat_a.digits)
+            return IntNumber(sign_b, ''.join(map(str, digits[::-1])))
 
 
 if __name__ == "__main__":

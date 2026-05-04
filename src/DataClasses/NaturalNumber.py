@@ -1,5 +1,6 @@
 from ..NaturalNumbers.NaturalFunctions import sub_nn_n
 
+
 class NaturalNumber:
     """
     Реализация больших натуральных чисел
@@ -86,7 +87,7 @@ class NaturalNumber:
         """
         self.digits = [0] * k + self.digits
         self.n += k
-        
+
     # Выполнил Бабаян Александр 5381
     def com_nn_d(self, number2):
         """
@@ -227,6 +228,26 @@ class NaturalNumber:
             return self
         else:
             raise ValueError("number больше чем текущее число!")
+
+    # Выполнил Килин Сергей 5381
+    def mul_nn_n(self, number2):
+        """
+        Умножение двух натуральных чисел.
+        Аргументы:
+            number2 (NaturalNumber): второе натуральное число
+        Возвращает:
+            Новое NaturalNumber — результат произведения
+        """
+        result = NaturalNumber("0")
+        for i, digit in enumerate(number2.digits):
+            temp = NaturalNumber()
+            temp.digits = self.digits[:]
+            temp.n = self.n
+            temp.mul_nd_n(digit)
+            temp.mul_nk_n(i)
+            result = result.add_nn_n(temp)
+
+        return result
 
 
 if __name__ == "__main__":
