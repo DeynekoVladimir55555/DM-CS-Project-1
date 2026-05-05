@@ -11,6 +11,7 @@ class RationalNumber:
         nomer (str): строковое представление числителя.
         denomer (str): строковое представление знаменятеля.
     """
+
     def __init__(self, sign=0, nomer="", denomer=""):
         self.nomer = IntNumber(sign, nomer)
         self.denomer = NaturalNumber(denomer)
@@ -51,7 +52,7 @@ class RationalNumber:
         """
         self.red_q_q()
         return self.denomer.to_str() == "1"
-    
+
     # Выполнила Бондаренко Полина 5381
     def trans_z_q(self, int_num: IntNumber):
         """
@@ -72,7 +73,30 @@ class RationalNumber:
             raise ValueError("Знаменатель не равен 1, преобразование невозможно")
 
         return self.nomer
-    
+
+    # Выполнил Килин Сергей 5381
+    def add_qq_q(self, number2):
+        """
+        Сложение двух рациональных чисел.
+        Аргументы:
+            number2 (RationalNumber): второе рациональное число
+        Возвращает:
+            Новое RationalNumber — результат суммы
+        """
+        lcm = self.denomer.lcm_nn_n(number2.denomer)
+        k1 = lcm.div_nn_n(self.denomer)
+        k2 = lcm.div_nn_n(number2.denomer)
+
+        a = mul_zz_z(self.nomer, IntNumber.trans_n_z(k1))
+        b = mul_zz_z(number2.nomer, IntNumber.trans_n_z(k2))
+        new_nomer = a.add_zz_z(b)
+        result = RationalNumber()
+        result.nomer = new_nomer
+        result.denomer = lcm
+
+        return result
+
+
 if __name__ == "__main__":
     rn = RationalNumber(int(input()), input(), input())
     print(rn)
