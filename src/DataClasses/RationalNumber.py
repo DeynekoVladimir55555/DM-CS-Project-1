@@ -1,5 +1,5 @@
-from NaturalNumber import NaturalNumber
-from IntNumber import IntNumber
+from src.DataClasses.NaturalNumber import NaturalNumber
+from src.DataClasses.IntNumber import IntNumber
 from ..IntNumbers.IntFunctions import mul_z_z
 
 

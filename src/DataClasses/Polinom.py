@@ -1,5 +1,4 @@
-from RationalNumber import RationalNumber
-from NaturalNumber import NaturalNumber
+from src.DataClasses.RationalNumber import RationalNumber
 
 
 class Polinom:

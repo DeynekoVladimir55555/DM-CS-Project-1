@@ -1,4 +1,4 @@
-from NaturalNumber import NaturalNumber
+from src.DataClasses.NaturalNumber import NaturalNumber
 
 class IntNumber:
     """
