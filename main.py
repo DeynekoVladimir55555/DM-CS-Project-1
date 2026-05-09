@@ -4,21 +4,22 @@ import sys
 from PyQt6.QtWidgets import QApplication
 from GUI.MainWindow import MainWindow
 from GUI.HelpWindow import HelpWindow
-#Objects
-from src.DataClasses.NaturalNumber import NaturalNumber
-from src.DataClasses.IntNumber import IntNumber
-from src.DataClasses.RationalNumber import RationalNumber
-from src.DataClasses.Polinom import Polinom
+from GUI.PolinomWindow import PolinomWindow
 #Test
-from src.test.TestModule import test_main
+from src.test.TestModule import test_main, get_operations
 from src.test.RandomNumbers import generator
 
 
-def main():
+def main(test = False):
+    if test:
+        test_main()
+        return
     # GUI
     app = QApplication(sys.argv)
-    mw = MainWindow()
-    hw = HelpWindow()
+    mw = MainWindow(get_operations())
+    hw = HelpWindow(mw)
+    pw = PolinomWindow(mw)
+    mw.add_hw_pw(hw, pw)
 
     mw.show()
 
