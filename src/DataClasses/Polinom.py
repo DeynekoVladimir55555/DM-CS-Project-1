@@ -84,6 +84,38 @@ class Polinom:
         self.deg += k
 
     # Выполнила Килина Софья 5381
+    def mul_pp_p(self, polinom2):
+        """
+            Умножение многочленов.
+        """
+        deg1 = self.deg + polinom2.deg
+        res = Polinom(0, 0, "0", "1")
+        res.change_deg(deg1)
+
+        for i in range(self.deg + 1):
+            coef1 = self.coefs[i]
+            if coef1.nomer == "0":
+                continue
+            for j in range(polinom2.deg + 1):
+                coef2 = polinom2.coefs[j]
+                if coef2.nomer == "0":
+                    continue
+                prod = coef1 * coef2
+                cur = res.coefs[i + j]
+                ncoef = cur + prod
+                res.change_coef(
+                    sign=ncoef.sign,
+                    deg=i + j,
+                    nomer=str(ncoef.nomer),
+                    denomer=str(ncoef.denomer)
+                )
+        while res.deg > 0 and res.coefs[res.deg].nomer == "0":
+            res.change_deg(res.deg - 1)
+        return res
+
+    )
+
+    # Выполнила Килина Софья 5381
     def der_p_p(self):
         """
         Возвращает новый многочлен - производную от текущего
