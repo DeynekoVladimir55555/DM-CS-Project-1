@@ -102,8 +102,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.ratCombo.addItems([
             "red A",
             "A is int",
-            "int -> rat",
-            "rat -> int",
+            "int A -> rat",
+            "rat A -> int",
             "A + B",
             "A - B",
             "A * B",
@@ -167,12 +167,14 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         inputs = QVBoxLayout()
         input_names = ["Введите число A", "0", "Введите число B", "0", "Ответ", ""]
         for i in range(0, 4, 2):
+            inputs.addStretch(1)
             inputs.addWidget(QLabel(input_names[i]))
             te = QTextEdit(input_names[i + 1])
             te.setMaximumHeight(70)
             inputs.addWidget(te)
             edits.append(te)
 
+        inputs.addStretch(1)
         d_k = QHBoxLayout()
         d_k.addWidget(QLabel("Введите цифру d"))
         te = QTextEdit("0")
@@ -187,6 +189,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         edits.append(te)
         d_k.addWidget(te)
         inputs.addLayout(d_k)
+        inputs.addStretch(1)
 
         inputs.addWidget(QLabel(input_names[4]))
         te = QTextEdit(input_names[5])
@@ -214,6 +217,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         inputs = QVBoxLayout()
         input_names = ["Введите число А", "0", "Введите число В", "0", "Ответ", ""]
         for i in range(0, 6, 2):
+            inputs.addStretch(1)
             inputs.addWidget(QLabel(input_names[i]))
             if i < 4:
                 combo = QComboBox()
@@ -243,14 +247,17 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         main_lay = QHBoxLayout(set_rat)
         edits = []
 
-        inputs = QHBoxLayout()
+        inputs = QVBoxLayout()
         input_names = ["Введите число А", "0", "1", "Введите число В", "0", "1"]
         for i in range(0, 6, 3):
+            inputs.addStretch(1)
             inputs.addWidget(QLabel(input_names[i]))
+            h_input = QHBoxLayout()
 
             combo = QComboBox()
+            combo.setMaximumWidth(50)
             combo.addItems(["+", "-"])
-            inputs.addWidget(combo)
+            h_input.addWidget(combo)
             self.combos[2].append(combo)
 
             v_input = QVBoxLayout()
@@ -260,9 +267,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                 te.setMaximumHeight(70)
                 v_input.addWidget(te)
                 edits.append(te)
-            v_input.addStretch(5)
+            h_input.addLayout(v_input)
 
-            inputs.addLayout(v_input)
+            inputs.addLayout(h_input)
 
         inputs.addWidget(QLabel("Ответ"))
         te = QTextEdit()

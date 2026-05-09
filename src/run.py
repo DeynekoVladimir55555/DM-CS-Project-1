@@ -30,6 +30,31 @@ funcs = {
             "A * B": IntNumber.mul_zz_z,
             "A // B": IntNumber.div_zz_z,
             "A % B": IntNumber.mod_zz_z
+    },
+    "rat": {
+            "red A": None,
+            "A is int": None,
+            "int A -> rat": None,
+            "rat A -> int": None,
+            "A + B": None,
+            "A - B": None,
+            "A * B": None,
+            "A / B": None
+    },
+    "pol": {
+            "A + B": None,
+            "A - B": None,
+            "A * q": None,
+            "A * x^k": None,
+            "led A": None,
+            "deg A": None,
+            "A(x) -> (c/d) * Q(x)": None,
+            "A * B": None,
+            "A // B": None,
+            "A % B": None,
+            "НОД": None,
+            "A'(x)": None,
+            "A -> A_red": None
     }
 }
 
@@ -47,6 +72,8 @@ def run(func, data_type, argv):
         nat2 = NaturalNumber(argv[1])
         d = int(argv[2])
         k = int(argv[3])
+        if d >= 10 or d < 0:
+            return "d должна быть цифрой"
 
         try:
             if func in ["A != 0", "A + 1"]:
@@ -97,35 +124,3 @@ def run(func, data_type, argv):
         return ""
     else:
         return ""
-
-
-"""
-        self.intCombo.addItems([
-            
-        ])
-        self.ratCombo.addItems([
-            "red A",
-            "A is int",
-            "int -> rat",
-            "rat -> int",
-            "A + B",
-            "A - B",
-            "A * B",
-            "A / B"
-        ])
-        self.polCombo.addItems([
-            "A + B",
-            "A - B",
-            "A * q",
-            "A * x^k",
-            "led A",
-            "deg A",
-            "A(x) -> (c/d) * Q(x)",
-            "A * B",
-            "A // B",
-            "A % B",
-            "НОД",
-            "A'(x)",
-            "A -> A_red"
-        ])
-"""
