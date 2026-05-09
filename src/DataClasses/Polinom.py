@@ -63,6 +63,109 @@ class Polinom:
         """
         return self.deg
 
+    # Выполнила Зуева Екатерина 5381
+    def mul_pxk_p(self, k: int):
+        """
+        Умножает многочлен на x^k. Если k != 0, создаёт и
+        заполняет новый словарь для коэффициентов,
+        чтобы доступ к элементам был корректен.
+        Аргументы:
+            k (int): степень x
+                k >= 0
+        """
+        if k == 0:
+            return
+
+        new_coefs = {}
+        for deg, coef in self.coefs.items():
+            new_coefs[deg + k] = coef
+        self.coefs = new_coefs
+        self.deg += k
+
+    # Выполнила Килина Софья 5381
+    def fac_p_q(self):
+        """
+            Вынесение из многочлена НОК знаменателей коэффициентов и НОД числителей.
+        """
+
+        def str_to_digits(s):
+            if s == "0":
+                return [0]
+            return [int(ch) for ch in s[::-1]]
+
+        def digits_to_str(digits):
+            if digits == [0]:
+                return "0"
+            return ''.join(str(d) for d in digits[::-1])
+
+        first = True
+        nod = None
+        nok = None
+        count = 0
+
+        for i in range(self.deg + 1):
+            coeff = self.coefs[i]
+            if coeff.nomer == "0":
+                continue
+            num = str_to_digits(coeff.nomer)
+            den = str_to_digits(coeff.denomer)
+
+            if first:
+                nod = num
+                nok = den
+                if coeff.sign == -1:
+                    count = 1
+                first = False
+            else:
+                nod = gcf_nn_n(nod, num)
+                nok = lcm_nn_n(nok, den)
+                if coeff.sign == -1:
+                    count += 1
+        if first:
+            return RationalNumber(0, "0", "1")
+        sign = -1 if (count % 2) else 1
+        num = digits_to_str(nod)
+        den = digits_to_str(nok)
+        if num == "0":
+            sign = 0
+        return RationalNumber(sign, num, den)
+
+    # Выполнила Килина Софья 5381
+    def der_p_p(self):
+        """
+        Возвращает новый многочлен - производную от текущего
+        """
+        res = Polinom(0, 0, "0", "1")
+
+        if self.deg == 0:
+            return res
+
+        res.change_deg(self.deg - 1)
+
+        for i in range(1, self.deg + 1):
+            coeff = self.coefs[i]
+            if coeff.nomer.sign == 0:
+                continue
+            new_coeff = coeff * i
+
+            res.change_coef(
+                sign = new_coeff.sign,
+                deg = i - 1,
+                nomer = str(new_coeff.nomer),
+                denomer = str(new_coeff.denomer)
+            )
+        
+        while res.deg > 0 and res.coefs[res.deg].nomer == "0":
+            res.change_deg(res.deg - 1)
+
+        return res
+
+    # Выполнила Киселева Ева 5381
+    def led_p_q(self):
+        """
+        Возвращает старший коэффициент многочлена
+        """
+        return self.coefs[self.deg]
 
 if __name__ == "__main__":
     p = Polinom(1, 3, "23457", "23712")
