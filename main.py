@@ -4,6 +4,7 @@ import sys
 from PyQt6.QtWidgets import QApplication
 from GUI.MainWindow import MainWindow
 from GUI.HelpWindow import HelpWindow
+from GUI.PolinomWindow import PolinomWindow
 #Objects
 from src.DataClasses.NaturalNumber import NaturalNumber
 from src.DataClasses.IntNumber import IntNumber
@@ -18,7 +19,9 @@ def main():
     # GUI
     app = QApplication(sys.argv)
     mw = MainWindow()
-    hw = HelpWindow()
+    hw = HelpWindow(mw)
+    pw = PolinomWindow(mw)
+    mw.add_hw_pw(hw, pw)
 
     mw.show()
 
