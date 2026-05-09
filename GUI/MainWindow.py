@@ -89,10 +89,10 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         ])
         self.intCombo.addItems([
             "abs A",
-            "A com 0",
+            "sign A",
             "A * (-1)",
-            "nat -> int",
-            "int -> nat",
+            "nat A -> int",
+            "int A -> nat",
             "A + B",
             "A - B",
             "A * B",
@@ -148,13 +148,15 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
         for edit in dataEdits[:-1]:
             argv.append(edit.toPlainText())
+
+        argv.append([0 if btn.currentText() == "+" else 1 for btn in self.combos[id]])
         result = run(func, data_type, argv)
-        print(result)
+        #print(result)
 
         dataEdits[-1].setPlainText(result)
 
     def run_pol(self, func, argv):
-        print(self.pol_list)
+        #print(self.pol_list)
         run(func, "pol", argv)
 
     def create_set_nat(self):
@@ -209,12 +211,13 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         main_lay = QHBoxLayout(set_int)
         edits = []
 
-        inputs = QHBoxLayout()
+        inputs = QVBoxLayout()
         input_names = ["Введите число А", "0", "Введите число В", "0", "Ответ", ""]
         for i in range(0, 6, 2):
             inputs.addWidget(QLabel(input_names[i]))
             if i < 4:
                 combo = QComboBox()
+                combo.setMaximumWidth(50)
                 combo.addItems(["+", "-"])
                 inputs.addWidget(combo)
                 self.combos[1].append(combo)
