@@ -8,7 +8,7 @@ from src.DataClasses.Polinom import Polinom
 
 
 class MainWindow(QMainWindow, Ui_MainWindow):
-    def __init__(self, operations):
+    def __init__(self):
         super().__init__()
         self.setupUi(self)
         self.hw = None
@@ -16,7 +16,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.containers = []
         self.text_edits = []
         self.combos = [[], [], [], []]
-        self.operations = operations
         self.active_container = None
         self.pol_list = [Polinom(), Polinom()]
         self.polinoms = [QTextBrowser(), QTextBrowser()]
