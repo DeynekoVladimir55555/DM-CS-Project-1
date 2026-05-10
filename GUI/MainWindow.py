@@ -11,6 +11,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def __init__(self):
         super().__init__()
         self.setupUi(self)
+        self.setWindowTitle("Главная")
         self.hw = None
         self.pw = None
         self.containers = []
@@ -144,7 +145,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         elif id == 2:
             func = self.ratCombo.currentText()
             data_type = "rat"
-            print(len(dataEdits))
+            #print(len(dataEdits))
         elif id == 3:
             func = self.polCombo.currentText()
             argv = self.pol_list.copy()
@@ -403,7 +404,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
         argv.append([1 if btn.currentText() == "+" else -1 for btn in self.combos[3]])
 
-        print(argv)
+        #print(argv)
         self.pol_list[which].change_coef(sign=argv[-1][which], deg=int(argv[2]), nomer=argv[0], denomer=argv[1])
         self.polinoms[which].setPlainText(print_polynom(self.pol_list[which]))
 
@@ -423,18 +424,22 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.hide_set()
         self.active_container = self.containers[0]
         self.containers[0].show()
+        self.setWindowTitle("Натуральные числа")
 
     def int(self):
         self.hide_set()
         self.active_container = self.containers[1]
         self.containers[1].show()
+        self.setWindowTitle("Целые числа")
 
     def rat(self):
         self.hide_set()
         self.active_container = self.containers[2]
         self.containers[2].show()
+        self.setWindowTitle("Рациональные числа")
 
     def pol(self):
         self.hide_set()
         self.active_container = self.containers[3]
         self.containers[3].show()
+        self.setWindowTitle("Многочлены")

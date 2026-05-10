@@ -7,6 +7,7 @@ class HelpWindow(QWidget, Ui_Help):
     def __init__(self, parent=None):
         super().__init__(parent)
         self.setupUi(self)
+        self.setWindowTitle("Справка")
         self.setWindowFlags(Qt.WindowType.Window | Qt.WindowType.WindowStaysOnTopHint)
 
         self.closeButton.clicked.connect(self.close)

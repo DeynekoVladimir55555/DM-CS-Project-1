@@ -66,7 +66,7 @@ def run(func, data_type, argv):
         if type(arg) == str and not arg.isdigit():
             return "Некорректные данные"
 
-    print(func, data_type, argv)
+    #print(func, data_type, argv)
     oper = funcs[data_type][func]
     result = None
     if data_type == 'nat':
@@ -172,7 +172,7 @@ def run(func, data_type, argv):
 
 def print_polynom(polinom):
     result = []
-    print('1')
+    #print('1')
     parts = polinom.coefs.keys()
     for part in parts:
         coef = polinom.coefs[part]
