@@ -1,5 +1,7 @@
 from src.DataClasses.NaturalNumber import NaturalNumber
 from src.DataClasses.IntNumber import IntNumber
+from src.DataClasses.RationalNumber import RationalNumber
+from src.DataClasses.Polinom import Polinom
 
 
 funcs = {
@@ -32,14 +34,14 @@ funcs = {
             "A % B": IntNumber.mod_zz_z
     },
     "rat": {
-            "red A": None,
-            "A is int": None,
-            "int A -> rat": None,
-            "rat A -> int": None,
-            "A + B": None,
-            "A - B": None,
-            "A * B": None,
-            "A / B": None
+            "red A": RationalNumber.red_q_q,
+            "A is int": RationalNumber.int_q_b,
+            "int A -> rat": RationalNumber.trans_z_q,
+            "rat A -> int": RationalNumber.trans_q_z,
+            "A + B": RationalNumber.add_qq_q,
+            "A - B": RationalNumber.sub_qq_q,
+            "A * B": RationalNumber.mul_qq_q,
+            "A / B": RationalNumber.div_qq_q
     },
     "pol": {
             "A + B": None,
@@ -121,6 +123,34 @@ def run(func, data_type, argv):
         except ZeroDivisionError:
             return "Деление на 0 невозможно"
     elif data_type == 'rat':
-        return ""
+        if argv[1] == "0" or argv[3] == "0":
+            return "Знаменатель не может равнятся 0"
+        sign1 = 0 if argv[0] == '0' else [1, -1][argv[-1][0]]
+        sign2 = 0 if argv[1] == '0' else [1, -1][argv[-1][1]]
+        rat1 = RationalNumber(sign1, argv[0], argv[1])
+        rat2 = RationalNumber(sign2, argv[2], argv[3])
+
+        try:
+            if func == "int A -> rat":
+                result = oper(rat1.nomer)
+            elif func in ["red A", "A is int", "rat A -> int"]:
+                result = oper(rat1)
+            else:
+                result = oper(rat1, rat2)
+            if type(result) == RationalNumber:
+                return result.to_str()
+            elif type(result) == IntNumber:
+                return f"{['', '+', '-'][result.sign]}{result.to_str()}"\
+                            if result.sign != 0 else\
+                            f"{result.to_str()}"
+            else:
+                return str(result)
+        except ValueError:
+            return "Знаменатель не равен 1"
     else:
         return ""
+
+""""red A": None,
+            "A is int": None,
+            "int A -> rat": None,
+            "rat A -> int": None,"""

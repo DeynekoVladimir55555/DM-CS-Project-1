@@ -139,6 +139,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         elif id == 2:
             func = self.ratCombo.currentText()
             data_type = "rat"
+            print(len(dataEdits))
         elif id == 3:
             func = self.polCombo.currentText()
             for edit in dataEdits:
@@ -275,6 +276,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         te = QTextEdit()
         te.setMaximumHeight(70)
         inputs.addWidget(te)
+        edits.append(te)
 
         btns = QVBoxLayout()
         btns.addWidget(self.ratCombo)

@@ -1,3 +1,6 @@
+from __future__ import annotations
+
+
 class NaturalNumber:
     """
     Реализация больших натуральных чисел
@@ -39,19 +42,21 @@ class NaturalNumber:
         """
         Увеличение натурального числа на 1
         """
-        self.digits[0] += 1
-        self.digits.append(0)
+        res = NaturalNumber(self.to_str())
+        plus_n = 1
 
-        for i in range(self.n + 1):
-            if self.digits[i] // 10:
-                self.digits[i] = 0
-                self.digits[i + 1] += 1
+        for i in range(len(res.digits)):
+            sm = res.digits[i] + plus_n
+            res.digits[i] = sm % 10
+            plus_n = sm // 10
+            if plus_n == 0:
+                break
 
-        if self.digits[-1]:
-            self.n += 1
-        else:
-            self.digits = self.digits[:-1]
-        return self
+        if plus_n:
+            res.digits.append(plus_n)
+            res.n += 1
+
+        return res
 
     # Выполнила Киселева Ева 5381
     def mul_nd_n(self, number: int):
@@ -215,8 +220,10 @@ class NaturalNumber:
             k (int): степень числа 10
         """
         res = NaturalNumber()
-        res.digits = [0] * k + self.digits
-        res.n = k + self.n
+
+        if self.nzer_n_b():
+            res.digits = [0] * k + self.digits
+            res.n = k + self.n
 
         return res
 
