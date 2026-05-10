@@ -311,53 +311,36 @@ class NaturalNumber:
         if cmp == 0:
             return 1, 0
         if cmp == 1:
-            b = NaturalNumber()
-            b.digits = number.digits[:]
-            b.n = number.n
-            s = NaturalNumber()
-            s.digits = self.digits[:]
-            s.n = self.n
+            b = NaturalNumber(number.to_str())
+            s = NaturalNumber(self.to_str())
         else:
-            b = NaturalNumber()
-            b.digits = self.digits[:]
-            b.n = self.n
-            s = NaturalNumber()
-            s.digits = number.digits[:]
-            s.n = number.n
+            b = NaturalNumber(self.to_str())
+            s = NaturalNumber(number.to_str())
+
         k = 0
-        bs = NaturalNumber()
-        bs.digits = s.digits[:]
-        bs.n = s.n
-        n3 = NaturalNumber()
-        n3.digits = s.digits[:]
-        n3.n = s.n
+        bs = NaturalNumber(s.to_str())
+        n3 = NaturalNumber(s.to_str())
         while b.com_nn_d(n3) == 2:
             k += 1
             n3.digits = bs.digits[:]
             n3.n = bs.n
             n3 = n3.mul_nk_n(k)
+
         k -= 1
-        s = NaturalNumber()
-        s.digits = bs.digits[:]
-        s.n = bs.n
-        n3 = NaturalNumber()
-        n3.digits = s.digits[:]
-        n3.n = s.n
+        s = NaturalNumber(bs.to_str())
+        n3 = NaturalNumber(s.to_str())
         n3 = n3.mul_nk_n(k)
         s = n3
 
         count = 1
-        tm = NaturalNumber()
-        tm.digits = s.digits[:]
-        tm.n = s.n
-        n3 = NaturalNumber()
-        n3.digits = s.digits[:]
-        n3.n = s.n
+        tm = NaturalNumber(s.to_str())
+        n3 = NaturalNumber(s.to_str())
         while b.com_nn_d(n3) == 2:
             count += 1
             n3.digits = tm.digits[:]
             n3.n = tm.n
             n3 = n3.mul_nd_n(count)
+
         if b.com_nn_d(n3) != 0:
             count -= 1
         if count == 10:
