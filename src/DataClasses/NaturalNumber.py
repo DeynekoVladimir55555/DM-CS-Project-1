@@ -12,7 +12,7 @@ class NaturalNumber:
 
     def __init__(self, string: list[str] | str = ""):
         self.digits = list(map(int, string[::-1])) if string else [0]
-        self.n = len(self.digits)
+        self.n = len(self.digits) - 1
 
     def __str__(self):
         return (
@@ -42,18 +42,21 @@ class NaturalNumber:
         """
         Увеличение натурального числа на 1
         """
-        self.digits[0] += 1
-        self.digits.append(0)
+        res = NaturalNumber(self.to_str())
+        plus_n = 1
 
-        for i in range(self.n):
-            if self.digits[i] // 10:
-                self.digits[i] = 0
-                self.digits[i + 1] += 1
+        for i in range(len(res.digits)):
+            sm = res.digits[i] + plus_n
+            res.digits[i] = sm % 10
+            plus_n = sm // 10
+            if plus_n == 0:
+                break
 
-        if self.digits[-1]:
-            self.n += 1
-        else:
-            self.digits = self.digits[:-1]
+        if plus_n:
+            res.digits.append(plus_n)
+            res.n += 1
+
+        return res
 
     # Выполнила Киселева Ева 5381
     def mul_nd_n(self, number: int):
@@ -64,18 +67,149 @@ class NaturalNumber:
         Переменные:
             plus_n (int): число, которое идет на следующий разряд.
         """
+        res = NaturalNumber()
+
         if number == 0:
-            self.digits = [0]
-            self.n = 0
+            return res
+
+        res.digits = self.digits
+        plus_n = 0
+        for i in range(self.n + 1):
+            multi = self.digits[i] * number + plus_n
+            res.digits[i] = multi % 10
+            plus_n = multi // 10
+        if plus_n > 0:
+            res.digits.append(plus_n)
+        res.n = len(res.digits) - 1
+
+        return res
+
+    # Выполнила Киселева Ева 5381
+    def mod_nn_n(self, num2):
+        """
+        Остаток от деления первого натурального числа на второе натуральное (делитель отличен от нуля)
+        Аргументы:
+            num2: второе натуральное число(делитель != 0)
+        Возвращает:
+            result - объект NaturalNumber, остаток
+        """
+        chasnoe = self.div_nn_n(num2)
+        op = num2.mul_nn_n(chasnoe)
+        result = self.sub_nn_n(op)
+        return result
+
+    # Выполнила Романенко Вика 5387
+    def div_nn_n(self, number2):
+        """
+        Неполное частное от деления первого натурального числа на второе с остатком
+        Аргументы:
+            number2 (NaturalNumber): делитель (отличен от нуля)
+        Возвращает:
+            NaturalNumber: неполное частное
+        """
+        if not number2.nzer_n_b():
+            raise ZeroDivisionError("Деление на ноль!")
+
+        if self.com_nn_d(number2) == 1:
+            return NaturalNumber()
+
+        copy_delimoe = NaturalNumber(self.to_str())
+        delitel = NaturalNumber(number2.to_str())
+
+        razrad = []
+
+        while copy_delimoe.com_nn_d(delitel) != 1:
+            digit, k = copy_delimoe.div_nn_dk(delitel)
+
+            while len(razrad) <= k:
+                razrad.append(0)
+            razrad[k] = digit
+
+            temp = NaturalNumber(delitel.to_str())
+            temp = temp.mul_nd_n(digit).mul_nk_n(k)
+            copy_delimoe = copy_delimoe.sub_ndn_n(temp, 1)
+
+        razrad.reverse()
+        result_str = ''.join(map(str, razrad))
+
+        return NaturalNumber(result_str)
+
+    # Выполнила Романенко Вика 5387
+    def lcm_nn_n(self, number2):
+        """
+        НОК (наименьшее общее кратное) натуральных чисел
+        Аргументы:
+            number2 (NaturalNumber): второе натуральное число
+        Возвращает:
+            NaturalNumber: НОК двух чисел
+        """
+        gcd = self.gcf_nn_n(number2)
+        product = self.mul_nn_n(number2)
+        result = product.div_nn_n(gcd)
+        return result
+
+    # Выполнила Романенко Вика 5387
+    def sub_nn_n(self, number2):
+        """
+        Вычитание двух натуральных чисел (из большего вычитаем меньшее)
+        Аргументы:
+            self - уменьшаемое
+            number2 - вычитаемое
+        Возвращает:
+            final_number - объект NaturalNumber, результат вычитания
+        """
+        tmp = 0
+        result = []
+
+        if self.com_nn_d(number2) == 2:
+            min_length = number2.n + 1
+            max_length = self.n + 1
+            big = self
+            small = number2
+        elif self.com_nn_d(number2) == 1:
+            min_length = self.n + 1
+            max_length = number2.n + 1
+            big = number2
+            small = self
         else:
-            plus_n = 0
-            for i in range(len(self.digits)):
-                multi = self.digits[i] * number + plus_n
-                self.digits[i] = multi % 10
-                plus_n = multi // 10
-                if plus_n > 0 and self.digits[i] == self.digits[-1]:
-                    self.digits.append(plus_n)
-            self.n = len(self.digits) - 1
+            return NaturalNumber("0")
+
+        big.digits.reverse()
+        small.digits.reverse()
+
+        for i in range(-1, (-1) * min_length - 1, -1):
+            diff = big.digits[i] - tmp - small.digits[i]
+
+            if diff < 0:
+                diff += 10
+                tmp = 1
+            else:
+                tmp = 0
+
+            result.append(diff)
+
+        for j in range(max_length - min_length - 1, -1, -1):
+            diff = big.digits[j] - tmp
+
+            if diff < 0:
+                diff += 10
+                tmp = 1
+            else:
+                tmp = 0
+
+            result.append(diff)
+
+        while len(result) > 1 and result[-1] == 0:
+            result.pop()
+
+        result.reverse()
+
+        big.digits.reverse()
+        small.digits.reverse()
+
+        final_number = NaturalNumber(list(map(str, result)))
+
+        return final_number
 
     # Выполнила Балаян Эдит 5381
     def mul_nk_n(self, k):
@@ -104,7 +238,7 @@ class NaturalNumber:
         elif self.n < number2.n:
             return 1
 
-        for i in range(self.n + 1):
+        for i in range(self.n, -1, -1):
             if self.digits[i] > number2.digits[i]:
                 return 2
             elif self.digits[i] == number2.digits[i]:
@@ -138,6 +272,25 @@ class NaturalNumber:
         final_result = NaturalNumber(''.join(map(str, result[::-1])))
 
         return final_result
+
+    # Выполнил Бабаян Александр 5381
+    def gcf_nn_n(self, number2):
+        """
+        НОД натуральных чисел
+        Аргументы:
+            number2 - второе натуральное число
+        Возвращает:
+            result - объект NaturalNumber, НОД
+        """
+        result = NaturalNumber(self.to_str())
+        b = NaturalNumber(number2.to_str())
+
+        while b.nzer_n_b():
+            r = result.mod_nn_n(b)
+            result = b
+            b = r
+
+        return result
 
     # Выполнила Килина Софья 5381
     def div_nn_dk(self, number):
@@ -177,7 +330,7 @@ class NaturalNumber:
             k += 1
             n3.digits = bs.digits[:]
             n3.n = bs.n
-            n3.mul_nk_n(k)
+            n3 = n3.mul_nk_n(k)
         k -= 1
         s = NaturalNumber()
         s.digits = bs.digits[:]
@@ -185,7 +338,7 @@ class NaturalNumber:
         n3 = NaturalNumber()
         n3.digits = s.digits[:]
         n3.n = s.n
-        n3.mul_nk_n(k)
+        n3 = n3.mul_nk_n(k)
         s = n3
 
         count = 1
@@ -251,8 +404,7 @@ class NaturalNumber:
 
 
 if __name__ == "__main__":
-    nn = NaturalNumber(input())
-    print(nn.n)
-    nn.add_1n_n()
-    print(nn)
-    print(nn.to_str())
+    nn1 = NaturalNumber(input())
+    nn2 = NaturalNumber(input())
+
+    print(nn1.gcf_nn_n(nn2))
