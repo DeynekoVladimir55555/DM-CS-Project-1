@@ -43,20 +43,7 @@ class NaturalNumber:
         Увеличение натурального числа на 1
         """
         res = NaturalNumber(self.to_str())
-        plus_n = 1
-
-        for i in range(len(res.digits)):
-            sm = res.digits[i] + plus_n
-            res.digits[i] = sm % 10
-            plus_n = sm // 10
-            if plus_n == 0:
-                break
-
-        if plus_n:
-            res.digits.append(plus_n)
-            res.n += 1
-
-        return res
+        return res.add_nn_n(NaturalNumber("1"))
 
     # Выполнила Киселева Ева 5381
     def mul_nd_n(self, number: int):
