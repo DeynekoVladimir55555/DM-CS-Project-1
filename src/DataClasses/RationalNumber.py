@@ -97,6 +97,59 @@ class RationalNumber:
 
         return self.nomer
 
+    # Выполнила Бондаренко Полина 5381
+    def mul_qq_q(self, other):
+        """
+        Умножение двух рациональных чисел.
+        Аргументы:
+            other (RationalNumber): второй множитель
+        Возвращает:
+            RationalNumber – новое рациональное число (несокращённое)
+        Используется: mul_zz_z, mul_nn_n.
+        """
+        new_nomer = self.nomer.mul_zz_z(other.nomer)
+        new_denomer = self.denomer.mul_nn_n(other.denomer)
+        result = RationalNumber()
+        result.nomer = new_nomer
+        result.denomer = new_denomer
+        return result
+
+    # Выполнила Романенко Вика 5387
+    def sub_qq_q(self, other):
+        """
+        Вычитание дробей: self - other.
+        Возвращает новый объект RationalNumber.
+        """
+        if self.nomer.to_str() == "0" and other.nomer.to_str() == "0":
+            return RationalNumber(0, "0", "1")
+
+        if self.nomer.to_str() == "0":
+            result = RationalNumber()
+            result.nomer = other.nomer.mul_zm_z()
+            result.denomer = other.denomer
+            return result
+
+        if other.nomer.to_str() == "0":
+            result = RationalNumber()
+            result.nomer = self.nomer
+            result.denomer = self.denomer
+            return result
+
+        lcm = self.denomer.lcm_nn_n(other.denomer)
+
+        k1 = lcm.div_nn_n(self.denomer)
+        k2 = lcm.div_nn_n(other.denomer)
+
+        a = self.nomer.mul_zz_z(IntNumber.trans_n_z(k1))
+        b = other.nomer.mul_zz_z(IntNumber.trans_n_z(k2))
+        new_nomer = a.sub_zz_z(b)
+
+        result = RationalNumber()
+        result.nomer = new_nomer
+        result.denomer = lcm
+
+        return result
+
     # Выполнил Килин Сергей 5381
     def add_qq_q(self, number2):
         """
@@ -104,14 +157,29 @@ class RationalNumber:
         Аргументы:
             number2 (RationalNumber): второе рациональное число
         Возвращает:
-            Новое RationalNumber — результат суммы
+            Новое RationalNumber - результат суммы
         """
+        if self.nomer.sign == 0 and number2.nomer.sign == 0:
+            return RationalNumber(0, "0", "1")
+
+        if self.nomer.sign == 0:
+            result = RationalNumber()
+            result.nomer = number2.nomer
+            result.denomer = number2.denomer
+            return result
+
+        if number2.nomer.sign == 0:
+            result = RationalNumber()
+            result.nomer = self.nomer
+            result.denomer = self.denomer
+            return result
+
         lcm = self.denomer.lcm_nn_n(number2.denomer)
         k1 = lcm.div_nn_n(self.denomer)
         k2 = lcm.div_nn_n(number2.denomer)
 
-        a = mul_zz_z(self.nomer, IntNumber.trans_n_z(k1))
-        b = mul_zz_z(number2.nomer, IntNumber.trans_n_z(k2))
+        a = self.nomer.mul_zz_z(IntNumber.trans_n_z(k1))
+        b = number2.nomer.mul_zz_z(IntNumber.trans_n_z(k2))
         new_nomer = a.add_zz_z(b)
         result = RationalNumber()
         result.nomer = new_nomer
@@ -119,7 +187,20 @@ class RationalNumber:
 
         return result
 
+    # Выполнила Балаян Эдит 5381
+    def div_qq_q(self, other):
+        """
+        Деление дробей (делитель отличен от нуля)
+        Аргументы:
+            other - делитель
+        Возвращает:
+            RationalNumber – результат деления
+        """
+        b = RationalNumber(other.nomer.sign, other.denomer.to_str(), other.nomer.to_str())
+        return self.mul_qq_q(b)
+
 
 if __name__ == "__main__":
-    rn = RationalNumber(int(input()), input(), input())
-    print(rn)
+    rn1 = RationalNumber(int(input()), input(), input())
+    rn2 = RationalNumber(int(input()), input(), input())
+    print(rn1.sub_qq_q(rn2))
