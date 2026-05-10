@@ -82,7 +82,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             "A != 0",
             "A + 1",
             "A + B",
-            "|A - B|",
+            "A - B",
             "A * d",
             "A * 10^k",
             "A * B",

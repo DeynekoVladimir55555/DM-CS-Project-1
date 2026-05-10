@@ -10,7 +10,7 @@ funcs = {
         "A != 0": NaturalNumber.nzer_n_b,
         "A + 1": NaturalNumber.add_1n_n,
         "A + B": NaturalNumber.add_nn_n,
-        "|A - B|": NaturalNumber.sub_nn_n,
+        "A - B": NaturalNumber.sub_nn_n,
         "A * d": NaturalNumber.mul_nd_n,
         "A * 10^k": NaturalNumber.mul_nk_n,
         "A * B": NaturalNumber.mul_nn_n,
@@ -43,7 +43,7 @@ funcs = {
             "A * B": RationalNumber.mul_qq_q,
             "A / B": RationalNumber.div_qq_q
     },
-    "pol": {# q rat, k nat
+    "pol": {
             "A + B": Polinom.add_pp_p,
             "A - B": Polinom.sub_pp_p,
             "A * q": Polinom.mul_pq_p,
