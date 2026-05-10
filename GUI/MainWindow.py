@@ -3,7 +3,7 @@ from PyQt6.QtWidgets import QMainWindow, QHBoxLayout, \
     QTextEdit, QComboBox, QTextBrowser
 
 from GUI.uis.main_ui import Ui_MainWindow
-from src.run import run
+from src.run import run, print_polynom
 from src.DataClasses.Polinom import Polinom
 
 
@@ -44,8 +44,13 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
         self.add_coef_a = QPushButton("Добавить")
         self.add_coef_b = QPushButton("Добавить")
-        self.add_coef_a.clicked.connect(lambda: self.add_to_pol("a"))
-        self.add_coef_b.clicked.connect(lambda: self.add_to_pol("b"))
+        self.add_coef_a.clicked.connect(lambda: self.add_to_pol(0))
+        self.add_coef_b.clicked.connect(lambda: self.add_to_pol(1))
+
+        self.clear_pol_a = QPushButton("Очистить")
+        self.clear_pol_b = QPushButton("Очистить")
+        self.clear_pol_a.clicked.connect(lambda: self.clear_pol(0))
+        self.clear_pol_b.clicked.connect(lambda: self.clear_pol(1))
 
         self.main_layout.addWidget(self.create_set_nat(), stretch=7)
         self.main_layout.addWidget(self.create_set_int(), stretch=7)
@@ -142,15 +147,19 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             print(len(dataEdits))
         elif id == 3:
             func = self.polCombo.currentText()
-            for edit in dataEdits:
+            argv = self.pol_list.copy()
+            for edit in dataEdits[6:]:
                 argv.append(edit.toPlainText())
-            self.run_pol(func, argv)
+            argv.append(1 if self.combos[id][2].currentText() == "+" else -1)
+            result = run(func, "pol", argv)
+            self.pw.helpBrowser.setPlainText(result)
+            self.pw.show()
             return
 
         for edit in dataEdits[:-1]:
             argv.append(edit.toPlainText())
 
-        argv.append([0 if btn.currentText() == "+" else 1 for btn in self.combos[id]])
+        argv.append([1 if btn.currentText() == "+" else -1 for btn in self.combos[id]])
         result = run(func, data_type, argv)
         #print(result)
 
@@ -292,7 +301,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
     def create_set_pol(self):
         set_pol = QFrame()
-        main_lay = QHBoxLayout(set_pol)
+        res_lay = QVBoxLayout(set_pol)
+        main_lay = QHBoxLayout()
         edits = []
 
         inputs = QVBoxLayout()
@@ -303,7 +313,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             pol_input = QHBoxLayout()
 
             combo = QComboBox()
-            combo.setMaximumWidth(40)
+            combo.setMaximumWidth(70)
             combo.addItems(["+", "-"])
             pol_input.addWidget(combo)
             self.combos[3].append(combo)
@@ -323,7 +333,10 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             te.setMaximumWidth(50)
             edits.append(te)
             pol_input.addWidget(te)
-            pol_input.addWidget([self.add_coef_a if i == 0 else self.add_coef_b][0])
+            pol_btn = QVBoxLayout()
+            pol_btn.addWidget([self.add_coef_a if i == 0 else self.add_coef_b][0])
+            pol_btn.addWidget([self.clear_pol_a if i == 0 else self.clear_pol_b][0])
+            pol_input.addLayout(pol_btn)
             pol_input.addStretch(4)
 
             inputs.addLayout(pol_input)
@@ -343,6 +356,34 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         main_lay.addLayout(inputs)
         main_lay.addLayout(polinoms)
         main_lay.addLayout(btns)
+        res_lay.addLayout(main_lay)
+
+        more = QHBoxLayout()
+
+        more.addWidget(QLabel("Введите натуральное k"))
+        te = QTextEdit("0")
+        te.setMaximumHeight(30)
+        te.setMaximumWidth(100)
+        edits.append(te)
+        more.addWidget(te)
+
+        more.addWidget(QLabel("Введите рациональное q"))
+        combo = QComboBox()
+        combo.setMaximumWidth(70)
+        combo.addItems(["+", "-"])
+        more.addWidget(combo)
+        self.combos[3].append(combo)
+
+        v_input = QVBoxLayout()
+        input_names = ["0", "1"]
+        for j in range(2):
+            te = QTextEdit(input_names[j])
+            te.setMaximumHeight(70)
+            v_input.addWidget(te)
+            edits.append(te)
+        more.addLayout(v_input)
+
+        res_lay.addLayout(more)
 
         self.containers.append(set_pol)
         self.text_edits.append(edits)
@@ -350,7 +391,26 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         return set_pol
 
     def add_to_pol(self, which):
-        print("added", which)
+        argv = []
+        dataEdits = self.text_edits[3]
+        for i in [[0, 1, 2], [3, 4, 5]][which]:
+            argv.append(dataEdits[i].toPlainText())
+
+        for arg in argv[:-1]:
+            if not arg.isdigit():
+                self.polinoms[which].setPlainText("Некорректные данные")
+                return
+
+        argv.append([1 if btn.currentText() == "+" else -1 for btn in self.combos[3]])
+
+        print(argv)
+        self.pol_list[which].change_coef(sign=argv[-1][which], deg=int(argv[2]), nomer=argv[0], denomer=argv[1])
+        self.polinoms[which].setPlainText(print_polynom(self.pol_list[which]))
+
+    def clear_pol(self, which):
+        self.polinoms[which].setPlainText("")
+        self.pol_list[which] = Polinom()
+
 
     def hide_set(self):
         if self.active_container is not None:

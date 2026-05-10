@@ -12,7 +12,7 @@ class Polinom:
         denomer (str): знаменатель коэффициента
     """
 
-    def __init__(self, sign=0, deg=0, nomer="", denomer=""):
+    def __init__(self, sign=0, deg=0, nomer="", denomer="1"):
         self.deg = deg
         self.coefs = {
             deg: RationalNumber(sign, nomer, denomer)
@@ -377,6 +377,9 @@ class Polinom:
             b = r
 
         return a
+
+
+
 
 
 if __name__ == "__main__":

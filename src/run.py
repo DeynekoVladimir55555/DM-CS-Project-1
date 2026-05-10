@@ -43,20 +43,20 @@ funcs = {
             "A * B": RationalNumber.mul_qq_q,
             "A / B": RationalNumber.div_qq_q
     },
-    "pol": {
-            "A + B": None,
-            "A - B": None,
-            "A * q": None,
-            "A * x^k": None,
-            "led A": None,
-            "deg A": None,
-            "A(x) -> (c/d) * Q(x)": None,
-            "A * B": None,
-            "A // B": None,
-            "A % B": None,
-            "НОД": None,
-            "A'(x)": None,
-            "A -> A_red": None
+    "pol": {# q rat, k nat
+            "A + B": Polinom.add_pp_p,
+            "A - B": Polinom.sub_pp_p,
+            "A * q": Polinom.mul_pq_p,
+            "A * x^k": Polinom.mul_pxk_p,
+            "led A": Polinom.led_p_q,
+            "deg A": Polinom.deg_p_n,
+            "A(x) -> (c/d) * Q(x)": Polinom.fac_p_q,
+            "A * B": Polinom.mul_pp_p,
+            "A // B": Polinom.div_pp_p,
+            "A % B": Polinom.mod_pp_p,
+            "НОД": Polinom.gcf_pp_p,
+            "A'(x)": Polinom.der_p_p,
+            "A -> A_red": Polinom.nmr_p_p
     }
 }
 
@@ -148,9 +148,35 @@ def run(func, data_type, argv):
         except ValueError:
             return "Знаменатель не равен 1"
     else:
-        return ""
+        q = RationalNumber(argv[-1], argv[3], argv[4])
+        k = int(argv[2])
 
-""""red A": None,
-            "A is int": None,
-            "int A -> rat": None,
-            "rat A -> int": None,"""
+        try:
+            if func == "A * q":
+                result = oper(argv[0], q)
+            elif func == "A * x^k":
+                result = oper(argv[0], k)
+            elif func in ["led A", "deg A", "A(x) -> (c/d) * Q(x)", "A'(x)", "A -> A_red"]:
+                result = oper(argv[0])
+            else:
+                result = oper(argv[0], argv[1])
+        except Exception:
+            return "some error"
+        if type(result) == Polinom:
+            return print_polynom(result)
+        elif type(result) == RationalNumber:
+            return result.to_str()
+        else:
+            return str(result)
+
+
+def print_polynom(polinom):
+    result = []
+    print('1')
+    parts = polinom.coefs.keys()
+    for part in parts:
+        coef = polinom.coefs[part]
+        if coef.nomer.digits != [0]:
+            coef_str = f"({['', '+', '-'][coef.nomer.sign]}{coef.nomer.to_str()}/{coef.denomer.to_str()})*x^{part}"
+            result.append(coef_str)
+    return " + ".join(result)
