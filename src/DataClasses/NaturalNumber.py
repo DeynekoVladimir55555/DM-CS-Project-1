@@ -1,4 +1,4 @@
-from __future__ import annotations
+from ..NaturalNumbers.NaturalFunctions import sub_nn_n
 
 
 class NaturalNumber:
@@ -219,13 +219,8 @@ class NaturalNumber:
         Аргументы:
             k (int): степень числа 10
         """
-        res = NaturalNumber()
-
-        if self.nzer_n_b():
-            res.digits = [0] * k + self.digits
-            res.n = k + self.n
-
-        return res
+        self.digits = [0] * k + self.digits
+        self.n += k
 
     # Выполнил Бабаян Александр 5381
     def com_nn_d(self, number2):
@@ -357,7 +352,7 @@ class NaturalNumber:
             count += 1
             n3.digits = tm.digits[:]
             n3.n = tm.n
-            n3 = n3.mul_nd_n(count)
+            n3.mul_nd_n(count)
         if b.com_nn_d(n3) != 0:
             count -= 1
         if count == 10:
@@ -371,10 +366,19 @@ class NaturalNumber:
         """
             Вычитает из текущего числа (self) число (number * digit).
         """
-        prod = number.mul_nd_n(digit)
-        cmp = self.com_nn_d(prod)
+        copy = NaturalNumber()
+        copy.digits = number.digits[:]
+        copy.n = number.n
+
+        copy.mul_nd_n(digit)
+
+        cmp = self.com_nn_d(copy)
         if cmp == 2 or cmp == 0:
-            return self.sub_nn_n(prod)
+            self.digits = sub_nn_n(self.digits, copy.digits)
+            self.n = len(self.digits) - 1
+            if len(self.digits) == 1 and self.digits[0] == 0:
+                self.n = 0
+            return self
         else:
             raise ValueError("number больше чем текущее число!")
 
@@ -392,7 +396,8 @@ class NaturalNumber:
             temp = NaturalNumber()
             temp.digits = self.digits[:]
             temp.n = self.n
-            temp = temp.mul_nd_n(digit).mul_nk_n(i)
+            temp.mul_nd_n(digit)
+            temp.mul_nk_n(i)
             result = result.add_nn_n(temp)
 
         return result

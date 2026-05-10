@@ -3,12 +3,11 @@ from PyQt6.QtWidgets import QMainWindow, QHBoxLayout, \
     QTextEdit, QComboBox, QTextBrowser
 
 from GUI.uis.main_ui import Ui_MainWindow
-from src.run import run, print_polynom
-from src.DataClasses.Polinom import Polinom
+from src.run import run
 
 
 class MainWindow(QMainWindow, Ui_MainWindow):
-    def __init__(self):
+    def __init__(self, operations):
         super().__init__()
         self.setupUi(self)
         self.hw = None
@@ -16,27 +15,10 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.containers = []
         self.text_edits = []
         self.combos = [[], [], [], []]
+        self.operations = operations
         self.active_container = None
-        self.pol_list = [Polinom(), Polinom()]
-        self.polinoms = [QTextBrowser(), QTextBrowser()]
-
-        self.natCombo = QComboBox()
-        self.intCombo = QComboBox()
-        self.ratCombo = QComboBox()
-        self.polCombo = QComboBox()
-        self.create_combo_btns()
-        self.runGroup = QButtonGroup()
-        self.runGroup.idClicked.connect(self.run_func)
-
-        self.runNat = QPushButton("Выполнить")
-        self.runGroup.addButton(self.runNat, 0)
-        self.runInt = QPushButton("Выполнить")
-        self.runGroup.addButton(self.runInt, 1)
-        self.runRat = QPushButton("Выполнить")
-        self.runGroup.addButton(self.runRat, 2)
-        self.runPol = QPushButton("Выполнить")
-        self.runGroup.addButton(self.runPol, 3)
-
+        self.btn_group = QButtonGroup(self)
+        self.btn_group.idClicked.connect(self.call_operation)
 
         self.main_layout = QHBoxLayout()
         self.centralwidget.setLayout(self.main_layout)
@@ -44,13 +26,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
         self.add_coef_a = QPushButton("Добавить")
         self.add_coef_b = QPushButton("Добавить")
-        self.add_coef_a.clicked.connect(lambda: self.add_to_pol(0))
-        self.add_coef_b.clicked.connect(lambda: self.add_to_pol(1))
-
-        self.clear_pol_a = QPushButton("Очистить")
-        self.clear_pol_b = QPushButton("Очистить")
-        self.clear_pol_a.clicked.connect(lambda: self.clear_pol(0))
-        self.clear_pol_b.clicked.connect(lambda: self.clear_pol(1))
+        self.add_coef_a.clicked.connect(lambda: self.add_to_pol("a"))
+        self.add_coef_b.clicked.connect(lambda: self.add_to_pol("b"))
 
         self.main_layout.addWidget(self.create_set_nat(), stretch=7)
         self.main_layout.addWidget(self.create_set_int(), stretch=7)
@@ -75,141 +52,26 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.pw = pw
         self.helpButton.clicked.connect(self.hw.show)
 
-    def create_combo_btns(self):
-        self.natCombo.addItems([
-            "A com B",
-            "A != 0",
-            "A + 1",
-            "A + B",
-            "|A - B|",
-            "A * d",
-            "A * 10^k",
-            "A * B",
-            "A - B * d",
-            "A / B -> d*10^k",
-            "A // B",
-            "A % B",
-            "НОД",
-            "НОК"
-        ])
-        self.intCombo.addItems([
-            "abs A",
-            "sign A",
-            "A * (-1)",
-            "nat A -> int",
-            "int A -> nat",
-            "A + B",
-            "A - B",
-            "A * B",
-            "A // B",
-            "A % B"
-        ])
-        self.ratCombo.addItems([
-            "red A",
-            "A is int",
-            "int A -> rat",
-            "rat A -> int",
-            "A + B",
-            "A - B",
-            "A * B",
-            "A / B"
-        ])
-        self.polCombo.addItems([
-            "A + B",
-            "A - B",
-            "A * q",
-            "A * x^k",
-            "led A",
-            "deg A",
-            "A(x) -> (c/d) * Q(x)",
-            "A * B",
-            "A // B",
-            "A % B",
-            "НОД",
-            "A'(x)",
-            "A -> A_red"
-        ])
-
-    def run_func(self, id):
-        func = ""
-        data_type = ""
-        dataEdits = self.text_edits[id]
-        argv = []
-        if id == 0:
-            func = self.natCombo.currentText()
-            data_type = "nat"
-        elif id == 1:
-            func = self.intCombo.currentText()
-            data_type = "int"
-        elif id == 2:
-            func = self.ratCombo.currentText()
-            data_type = "rat"
-            print(len(dataEdits))
-        elif id == 3:
-            func = self.polCombo.currentText()
-            argv = self.pol_list.copy()
-            for edit in dataEdits[6:]:
-                argv.append(edit.toPlainText())
-            argv.append(1 if self.combos[id][2].currentText() == "+" else -1)
-            result = run(func, "pol", argv)
-            self.pw.helpBrowser.setPlainText(result)
-            self.pw.show()
-            return
-
-        for edit in dataEdits[:-1]:
-            argv.append(edit.toPlainText())
-
-        argv.append([1 if btn.currentText() == "+" else -1 for btn in self.combos[id]])
-        result = run(func, data_type, argv)
-        #print(result)
-
-        dataEdits[-1].setPlainText(result)
-
-    def run_pol(self, func, argv):
-        #print(self.pol_list)
-        run(func, "pol", argv)
-
     def create_set_nat(self):
         set_nat = QFrame()
         main_lay = QHBoxLayout(set_nat)
         edits = []
 
-        inputs = QVBoxLayout()
+        inputs = QHBoxLayout()
         input_names = ["Введите число A", "0", "Введите число B", "0", "Ответ", ""]
-        for i in range(0, 4, 2):
-            inputs.addStretch(1)
+        for i in range(0, 6, 2):
             inputs.addWidget(QLabel(input_names[i]))
             te = QTextEdit(input_names[i + 1])
             te.setMaximumHeight(70)
             inputs.addWidget(te)
             edits.append(te)
 
-        inputs.addStretch(1)
-        d_k = QHBoxLayout()
-        d_k.addWidget(QLabel("Введите цифру d"))
-        te = QTextEdit("0")
-        te.setMaximumHeight(30)
-        te.setMaximumWidth(100)
-        edits.append(te)
-        d_k.addWidget(te)
-        d_k.addWidget(QLabel("Введите число k"))
-        te = QTextEdit("0")
-        te.setMaximumHeight(30)
-        te.setMaximumWidth(100)
-        edits.append(te)
-        d_k.addWidget(te)
-        inputs.addLayout(d_k)
-        inputs.addStretch(1)
-
-        inputs.addWidget(QLabel(input_names[4]))
-        te = QTextEdit(input_names[5])
-        te.setMaximumHeight(70)
-        inputs.addWidget(te)
-        edits.append(te)
-
         btns = QVBoxLayout()
-        btns.addWidget(self.natCombo)
-        btns.addWidget(self.runNat)
+        btn_names = ["A + 1", "B + 1", "A + B", "|A - B|", "A * B", "НОД", "НОК"]
+        for i in range(0, 7):
+            btn = QPushButton(btn_names[i])
+            btns.addWidget(btn)
+            self.btn_group.addButton(btn, i)
 
         main_lay.addLayout(inputs, stretch=6)
         main_lay.addLayout(btns, stretch=1)
@@ -224,14 +86,12 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         main_lay = QHBoxLayout(set_int)
         edits = []
 
-        inputs = QVBoxLayout()
+        inputs = QHBoxLayout()
         input_names = ["Введите число А", "0", "Введите число В", "0", "Ответ", ""]
         for i in range(0, 6, 2):
-            inputs.addStretch(1)
             inputs.addWidget(QLabel(input_names[i]))
             if i < 4:
                 combo = QComboBox()
-                combo.setMaximumWidth(50)
                 combo.addItems(["+", "-"])
                 inputs.addWidget(combo)
                 self.combos[1].append(combo)
@@ -241,8 +101,11 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             edits.append(te)
 
         btns = QVBoxLayout()
-        btns.addWidget(self.intCombo)
-        btns.addWidget(self.runInt)
+        btn_names = ["A + B", "A - B", "A * B", "A div B", "A mod B"]
+        for i in range(7, 12):
+            btn = QPushButton(btn_names[i - 7])
+            btns.addWidget(btn)
+            self.btn_group.addButton(btn, i)
 
         main_lay.addLayout(inputs, stretch=6)
         main_lay.addLayout(btns, stretch=1)
@@ -257,17 +120,14 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         main_lay = QHBoxLayout(set_rat)
         edits = []
 
-        inputs = QVBoxLayout()
+        inputs = QHBoxLayout()
         input_names = ["Введите число А", "0", "1", "Введите число В", "0", "1"]
         for i in range(0, 6, 3):
-            inputs.addStretch(1)
             inputs.addWidget(QLabel(input_names[i]))
-            h_input = QHBoxLayout()
 
             combo = QComboBox()
-            combo.setMaximumWidth(50)
             combo.addItems(["+", "-"])
-            h_input.addWidget(combo)
+            inputs.addWidget(combo)
             self.combos[2].append(combo)
 
             v_input = QVBoxLayout()
@@ -277,19 +137,21 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                 te.setMaximumHeight(70)
                 v_input.addWidget(te)
                 edits.append(te)
-            h_input.addLayout(v_input)
+            v_input.addStretch(5)
 
-            inputs.addLayout(h_input)
+            inputs.addLayout(v_input)
 
         inputs.addWidget(QLabel("Ответ"))
         te = QTextEdit()
         te.setMaximumHeight(70)
         inputs.addWidget(te)
-        edits.append(te)
 
         btns = QVBoxLayout()
-        btns.addWidget(self.ratCombo)
-        btns.addWidget(self.runRat)
+        btn_names = ["A + B", "A - B", "A * B", "A / B"]
+        for i in range(12, 16):
+            btn = QPushButton(btn_names[i - 12])
+            btns.addWidget(btn)
+            self.btn_group.addButton(btn, i)
 
         main_lay.addLayout(inputs, stretch=6)
         main_lay.addLayout(btns, stretch=1)
@@ -301,8 +163,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
     def create_set_pol(self):
         set_pol = QFrame()
-        res_lay = QVBoxLayout(set_pol)
-        main_lay = QHBoxLayout()
+        main_lay = QHBoxLayout(set_pol)
         edits = []
 
         inputs = QVBoxLayout()
@@ -313,7 +174,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             pol_input = QHBoxLayout()
 
             combo = QComboBox()
-            combo.setMaximumWidth(70)
+            combo.setMaximumWidth(40)
             combo.addItems(["+", "-"])
             pol_input.addWidget(combo)
             self.combos[3].append(combo)
@@ -333,10 +194,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             te.setMaximumWidth(50)
             edits.append(te)
             pol_input.addWidget(te)
-            pol_btn = QVBoxLayout()
-            pol_btn.addWidget([self.add_coef_a if i == 0 else self.add_coef_b][0])
-            pol_btn.addWidget([self.clear_pol_a if i == 0 else self.clear_pol_b][0])
-            pol_input.addLayout(pol_btn)
+            pol_input.addWidget([self.add_coef_a if i == 0 else self.add_coef_b][0])
             pol_input.addStretch(4)
 
             inputs.addLayout(pol_input)
@@ -344,46 +202,22 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
         polinoms = QVBoxLayout()
         polinoms.addStretch(1)
-        polinoms.addWidget(self.polinoms[0])
+        polinoms.addWidget(QTextBrowser())
         polinoms.addStretch(1)
-        polinoms.addWidget(self.polinoms[1])
+        polinoms.addWidget(QTextBrowser())
         polinoms.addStretch(1)
 
         btns = QVBoxLayout()
-        btns.addWidget(self.polCombo)
-        btns.addWidget(self.runPol)
+        btn_names = ["A + B", "A - B", "A * B", "A div B", "A mod B", "НОД",
+                     "Кратные корни А\n в простые", "Кратные корни В\n в простые"]
+        for i in range(16, 24):
+            btn = QPushButton(btn_names[i - 16])
+            btns.addWidget(btn)
+            self.btn_group.addButton(btn, i)
 
         main_lay.addLayout(inputs)
         main_lay.addLayout(polinoms)
         main_lay.addLayout(btns)
-        res_lay.addLayout(main_lay)
-
-        more = QHBoxLayout()
-
-        more.addWidget(QLabel("Введите натуральное k"))
-        te = QTextEdit("0")
-        te.setMaximumHeight(30)
-        te.setMaximumWidth(100)
-        edits.append(te)
-        more.addWidget(te)
-
-        more.addWidget(QLabel("Введите рациональное q"))
-        combo = QComboBox()
-        combo.setMaximumWidth(70)
-        combo.addItems(["+", "-"])
-        more.addWidget(combo)
-        self.combos[3].append(combo)
-
-        v_input = QVBoxLayout()
-        input_names = ["0", "1"]
-        for j in range(2):
-            te = QTextEdit(input_names[j])
-            te.setMaximumHeight(70)
-            v_input.addWidget(te)
-            edits.append(te)
-        more.addLayout(v_input)
-
-        res_lay.addLayout(more)
 
         self.containers.append(set_pol)
         self.text_edits.append(edits)
@@ -391,26 +225,16 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         return set_pol
 
     def add_to_pol(self, which):
-        argv = []
-        dataEdits = self.text_edits[3]
-        for i in [[0, 1, 2], [3, 4, 5]][which]:
-            argv.append(dataEdits[i].toPlainText())
+        print("added", which)
 
-        for arg in argv[:-1]:
-            if not arg.isdigit():
-                self.polinoms[which].setPlainText("Некорректные данные")
-                return
+    def call_operation(self, btn_id):
+        if btn_id < 7:
+            pass
 
-        argv.append([1 if btn.currentText() == "+" else -1 for btn in self.combos[3]])
+        if btn_id < 12:
+            pass
 
-        print(argv)
-        self.pol_list[which].change_coef(sign=argv[-1][which], deg=int(argv[2]), nomer=argv[0], denomer=argv[1])
-        self.polinoms[which].setPlainText(print_polynom(self.pol_list[which]))
-
-    def clear_pol(self, which):
-        self.polinoms[which].setPlainText("")
-        self.pol_list[which] = Polinom()
-
+        print("Called", btn_id)
 
     def hide_set(self):
         if self.active_container is not None:
