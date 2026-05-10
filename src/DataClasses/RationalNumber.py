@@ -196,7 +196,11 @@ class RationalNumber:
         Возвращает:
             RationalNumber – результат деления
         """
-        b = RationalNumber(other.nomer.sign, other.denomer.to_str(), other.nomer.to_str())
+        b = RationalNumber(
+            other.nomer.sign,
+            other.denomer.to_str(),
+            other.nomer.to_str()
+        )
         return self.mul_qq_q(b)
 
 
