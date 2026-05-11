@@ -1,7 +1,7 @@
 import unittest
-from ..DataClasses.RationalNumber import RationalNumber
-from ..DataClasses.NaturalNumber import NaturalNumber
-from ..DataClasses.IntNumber import IntNumber
+from src.DataClasses.RationalNumber import RationalNumber
+from src.DataClasses.NaturalNumber import NaturalNumber
+from src.DataClasses.IntNumber import IntNumber
 
 
 BIG = "9" * 50

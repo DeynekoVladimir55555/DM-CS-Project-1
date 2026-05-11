@@ -1,5 +1,5 @@
 import unittest
-from IntNumber import IntNumber
+from src.DataClasses.IntNumber import IntNumber
 
 
 class TestIntNumberLarge(unittest.TestCase):

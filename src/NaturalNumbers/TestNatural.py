@@ -1,5 +1,5 @@
 import unittest
-from NaturalNumber import NaturalNumber
+from src.DataClasses.NaturalNumber import NaturalNumber
 
 
 BIG = "9" * 50
