@@ -59,7 +59,7 @@ class NaturalNumber:
         if number == 0:
             return res
 
-        res.digits = self.digits
+        res.digits = self.digits[:]
         plus_n = 0
         for i in range(self.n + 1):
             multi = self.digits[i] * number + plus_n
