@@ -160,8 +160,8 @@ def run(func, data_type, argv):
                 result = oper(argv[0])
             else:
                 result = oper(argv[0], argv[1])
-        except Exception:
-            return "some error"
+        except ZeroDivisionError:
+            return "Деление на 0 невозможно"
         if type(result) == Polinom:
             return print_polynom(result)
         elif type(result) == RationalNumber:
