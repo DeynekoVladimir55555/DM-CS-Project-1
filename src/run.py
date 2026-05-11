@@ -179,4 +179,6 @@ def print_polynom(polinom):
         if coef.nomer.digits != [0]:
             coef_str = f"({['', '+', '-'][coef.nomer.sign]}{coef.nomer.to_str()}/{coef.denomer.to_str()})*x^{part}"
             result.append(coef_str)
-    return " + ".join(result)
+    if len(result) > 0:
+        return " + ".join(result)
+    return "0"
