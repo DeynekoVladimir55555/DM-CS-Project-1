@@ -99,8 +99,8 @@ def run(func, data_type, argv):
             return f"{result[0]}*10^{result[1]}"
         return str(result)
     elif data_type == 'int':
-        sign1 = 0 if argv[0] == '0' else [1, -1][argv[-1][0]]
-        sign2 = 0 if argv[1] == '0' else [1, -1][argv[-1][1]]
+        sign1 = 0 if argv[0] == '0' else argv[-1][0]
+        sign2 = 0 if argv[1] == '0' else argv[-1][1]
         #print(sign1, sign2)
         int1 = IntNumber(sign1, argv[0])
         int2 = IntNumber(sign2, argv[1])
@@ -125,8 +125,8 @@ def run(func, data_type, argv):
     elif data_type == 'rat':
         if argv[1] == "0" or argv[3] == "0":
             return "Знаменатель не может равнятся 0"
-        sign1 = 0 if argv[0] == '0' else [1, -1][argv[-1][0]]
-        sign2 = 0 if argv[1] == '0' else [1, -1][argv[-1][1]]
+        sign1 = 0 if argv[0] == '0' else argv[-1][0]
+        sign2 = 0 if argv[2] == '0' else argv[-1][1]
         rat1 = RationalNumber(sign1, argv[0], argv[1])
         rat2 = RationalNumber(sign2, argv[2], argv[3])
 
